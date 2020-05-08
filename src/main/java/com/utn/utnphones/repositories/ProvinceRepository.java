@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ProvinceRepository extends JpaRepository<Province, Integer> {
 
-    @Query (value = "select * from provinces p where p.name like \"%?1%\" order by p.name asc", nativeQuery = true)
+    @Query(value = "select * from provinces p where p.name like %?1% order by p.name asc", nativeQuery = true)
     List<Province> findByName(String name);
 }
 

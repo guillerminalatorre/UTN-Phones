@@ -35,8 +35,8 @@ public class ProvinceController {
         return provinceService.getProvinceById(idProvince);
     }
 
-    @GetMapping("/n/{name}")
-    public List<Province> getProvincesByName(@Param("name") @NotBlank @Size(max = 10) String name){
+    @GetMapping("/n={name}")
+    public List<Province> getProvincesByName(@PathVariable(value = "name", required = true) String name){
         return provinceService.getProvincesByName(name);
     }
 }

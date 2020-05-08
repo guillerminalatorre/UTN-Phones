@@ -9,15 +9,17 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity
+@Entity(name = "provinces")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class Province {
     @Id
-    private Integer id_province;
+    @Column(name = "id_province")
+    private Integer idProvince;
 
     @NotNull
     @Column(unique=true)

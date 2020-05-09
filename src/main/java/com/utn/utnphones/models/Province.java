@@ -6,10 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "provinces")
 @NoArgsConstructor
@@ -24,4 +22,7 @@ public class Province {
     @NotNull
     @Column(unique=true)
     private String name;
+
+    @OneToMany(mappedBy = "province")
+    private List<Locality> localities;
 }

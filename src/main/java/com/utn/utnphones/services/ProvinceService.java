@@ -5,6 +5,7 @@ import com.utn.utnphones.repositories.ProvinceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,12 +24,22 @@ public class ProvinceService {
         return provinceRepository.findAll();
     }
 
-    public Province getProvinceById(Integer idProvince){
+    public Province getProvinceById(Integer idProvince) {
         //Agregar exception si es null;
-        return provinceRepository.findById(idProvince).get();
+        Province province = new Province();
+
+        province = provinceRepository.findById(idProvince).get();
+
+        return province;
     }
 
     public List<Province>  getProvincesByName(String name){
-        return provinceRepository.findByName(name);
+
+        List<Province> reply = new ArrayList<Province>();
+
+        reply = provinceRepository.findByName(name);
+
+
+        return reply;
     }
 }

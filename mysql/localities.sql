@@ -8,7 +8,7 @@ INSERT INTO localities (name, id_province, prefix) values ("Abbott", 1, "2271");
 INSERT INTO localities (name, id_province, prefix) values ("Acevedo", 1, "2477");
 INSERT INTO localities (name, id_province, prefix) values ("Adolfo gonzalez chaves", 1, "2983");
 INSERT INTO localities (name, id_province, prefix) values ("Agustin roca", 1, "236");
-INSERT INTO localities (name, id_province, prefix) values ("Agustina", 1, "236");
+INSERT INTO localities (name, id_province, prefix) values ("Agustina", 1, "236")
 INSERT INTO localities (name, id_province, prefix) values ("Alberti", 1, "2346");
 INSERT INTO localities (name, id_province, prefix) values ("Alejandro korn", 1, "2225");
 INSERT INTO localities (name, id_province, prefix) values ("Alejandro petion", 1, "2226");

@@ -33,11 +33,30 @@ public class ProvinceService {
         return province;
     }
 
-    public List<Province>  getProvincesByName(String name){
+    public List<Province> getProvincesByName (String name) {
+        //Agregar exception si es null;
+        List<Province> province = new ArrayList<Province>();
 
-        List<Province> reply = new ArrayList<Province>();
+        province = provinceRepository.findByName(name);
 
-        reply = provinceRepository.findByName(name);
+        return province;
+    }
+
+    public List<String>  getProvincesByNameNames(String name){
+
+        List<String> reply = new ArrayList<String>();
+
+        reply = provinceRepository.findByNameNames(name);
+
+
+        return reply;
+    }
+
+    public List<String>  getProvinceNames(){
+
+        List<String> reply = new ArrayList<String>();
+
+        reply = provinceRepository.findAllNames();
 
 
         return reply;

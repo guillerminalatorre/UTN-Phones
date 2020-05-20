@@ -31,12 +31,27 @@ public class ProvinceController {
         return provinceService.getProvinces();
     }
 
+    @GetMapping("/-n")
+    public List<String> getProvinceNames(){
+        return provinceService.getProvinceNames();
+    }
+
     @GetMapping("/{idProvince}")
-    public Province getProvinceById(@PathVariable(value = "idProvince", required = true) @Min(value = 1, message = "No existe la provincia buscada") @Max(value = 23, message = "No existe la provincia buscada") Integer idProvince){
+    public Province getProvinceById( @PathVariable(value = "idProvince", required = true) Integer idProvince){
 
         Province reply = new Province();
 
         reply = provinceService.getProvinceById(idProvince);
+
+        return reply;
+    }
+
+    @GetMapping("/-n={name}")
+    public List<String> getProvincesByNameName(@PathVariable(value = "name", required = true) String name){
+
+        List<String> reply = new ArrayList<String>();
+
+        reply = provinceService.getProvincesByNameNames(name);
 
         return reply;
     }

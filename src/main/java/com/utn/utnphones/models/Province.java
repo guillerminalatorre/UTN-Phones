@@ -1,13 +1,9 @@
 package com.utn.utnphones.models;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "provinces")
 @NoArgsConstructor
@@ -17,9 +13,11 @@ import java.util.List;
 public class Province {
     @Id
     @Column(name = "id_province")
+    @NotNull
     private Integer idProvince;
 
     @NotNull
     @Column(unique=true)
     private String name;
+
 }

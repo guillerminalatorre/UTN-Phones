@@ -2,32 +2,44 @@ package com.utn.utnphones.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
+import com.utn.utnphones.models.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity(name = "localities")
+@Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class Locality {
+public class User {
     @Id
-    @Column(name = "id_locality")
+    @Column(name = "id_user")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idLocality;
+    private Integer idUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    private Province province;
+    private Locality locality;
 
     @NotNull
+    @Column( length = 150)
     private String name;
 
     @NotNull
-    private String prefix;
+    @Column( length = 150)
+    private String lastname;
+
+    @Column( unique = true, name = "id_number")
+    private String idNumber;
+
+    @NotNull
+    private String password;
+
+    @Column(name = "user_type")
+    @Enumerated(value = EnumType.STRING)
+    private UserType userType;
 }

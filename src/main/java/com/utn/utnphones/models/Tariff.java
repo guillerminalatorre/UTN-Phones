@@ -8,27 +8,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity(name = "localities")
+@Entity(name = "tariffs")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class Locality {
+public class Tariff {
     @Id
-    @Column(name = "id_locality")
+    @Column(name = "id_tariff")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idLocality;
+    private Integer idTariff;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name="id_province")
-    private Province province;
+    @JoinColumn(name="id_locality_from")
+    private Locality localityFrom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JoinColumn(name="id_locality_to")
+    private Locality localityTo;
+
+    @Column(name = "cost_price")
+    @NotNull
+    private Float costPrice;
 
     @NotNull
-    private String name;
-
-    @NotNull
-    private String prefix;
+    private Float price;
 }

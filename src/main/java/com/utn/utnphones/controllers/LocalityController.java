@@ -20,7 +20,7 @@ public class LocalityController {
     }
 
     @GetMapping("/")
-    public List<Locality> getLocalitys(){
+    public List<Locality> getLocalities(){
         return localityService.getLocalities();
     }
 

@@ -31,7 +31,7 @@ public class ProvinceController {
         return provinceService.getProvinces();
     }
 
-    @GetMapping("/-n")
+    @GetMapping("/names")
     public List<String> getProvinceNames(){
         return provinceService.getProvinceNames();
     }
@@ -46,7 +46,7 @@ public class ProvinceController {
         return reply;
     }
 
-    @GetMapping("/-n={name}")
+    @GetMapping("/n={name}/names")
     public List<String> getProvincesByNameName(@PathVariable(value = "name", required = true) String name){
 
         List<String> reply = new ArrayList<String>();

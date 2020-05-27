@@ -23,6 +23,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_locality")
     private Locality locality;
 
     @NotNull
@@ -39,7 +40,7 @@ public class User {
     @NotNull
     private String password;
 
-    @Column(name = "user_type")
+    @Column(name = "user_type", columnDefinition = "varchar(50) default 'CLIENT'")
     @Enumerated(value = EnumType.STRING)
     private UserType userType;
 }

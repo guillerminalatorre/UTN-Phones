@@ -12,7 +12,4 @@ public interface LocalityRepository extends JpaRepository<Locality, Integer> {
 
     @Query(value = "select * from localities l where l.name like %?1% order by l.name asc", nativeQuery = true)
     List<Locality> findByName(String name);
-
-    /*@Query(value = "select * from v_localities order by id", nativeQuery = true)
-    List<Locality> findAllLocalities();*/
 }

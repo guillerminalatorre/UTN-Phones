@@ -2,11 +2,12 @@ package com.utn.utnphones.controllers;
 import java.util.List;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
-import com.utn.utnphones.models.enums.Status;
+import com.utn.utnphones.models.enums.LineStatus;
 import com.utn.utnphones.services.PhoneLineService;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,20 +29,20 @@ public class PhoneLineController {
     }
 
     @GetMapping("/{number}")
-    public PhoneLine getPhoneLineByNumber(String number){
+    public PhoneLine getPhoneLineByNumber(@PathVariable(value = "number", required = true) String number){
         return this.phoneLineService.getPhoneLineByNumber(number);
     }
 
     @GetMapping("/{number}/user")
-    public User getUserByNumber(String number){
+    public User getUserByNumber(@PathVariable(value = "number", required = true)String number){
 
         Integer idUser = this.phoneLineService.getUserIdByNumber(number);
 
         return this.userService.getUserById(idUser);
     }
 
-    @GetMapping("/-status={number}")
-    public Status getStatusByNumber (String number){
+    @GetMapping("/{number}/status")
+    public LineStatus getStatusByNumber (@PathVariable(value = "number", required = true)String number){
         return this.phoneLineService.getStatusByNumber(number);
     }
 }

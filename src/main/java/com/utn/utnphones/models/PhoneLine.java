@@ -1,14 +1,15 @@
 package com.utn.utnphones.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.utn.utnphones.models.enums.Status;
-import com.utn.utnphones.models.enums.UserType;
+import com.utn.utnphones.models.enums.LineStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import static com.utn.utnphones.models.enums.LineStatus.ENABLED;
 
 @Entity(name = "phone_lines")
 @NoArgsConstructor
@@ -32,7 +33,7 @@ public class PhoneLine {
     @JsonBackReference
     private Locality locality;
 
-    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
-    private Status status;
+    @Column(columnDefinition = "varchar(50) default 'ENABLED'")
+    private LineStatus status = ENABLED;
 }

@@ -1,7 +1,7 @@
 package com.utn.utnphones.repositories;
 
 import com.utn.utnphones.models.PhoneLine;
-import com.utn.utnphones.models.enums.Status;
+import com.utn.utnphones.models.enums.LineStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,5 +12,5 @@ public interface PhoneLineRepository extends JpaRepository<PhoneLine, String> {
     Integer findUserByNumber(String number);
 
     @Query(value = "select p.status phone_lines p where p.phone_number like ?1", nativeQuery = true)
-    Status findStatusByNumber(String phone_number);
+    LineStatus findStatusByNumber(String phone_number);
 }

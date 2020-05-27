@@ -5,6 +5,7 @@ import com.utn.utnphones.services.LineTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,12 +23,12 @@ public class LineTypeController {
     }
 
     @GetMapping("/{idLineType}")
-    public LineType getLineTypeById(Integer idLineType){
+    public LineType getLineTypeById(@PathVariable(value = "idLineType", required = true) Integer idLineType){
         return lineTypeService.getLineTypeById(idLineType);
     }
 
-    @GetMapping("/-digitsQty={idLineType}")
-    public Integer getDigitsQtyById( Integer idLineType){
+    @GetMapping("/{idLineType}/digitsQty")
+    public Integer getDigitsQtyById(@PathVariable(value = "idLineType", required = true) Integer idLineType){
         return lineTypeService.getDigitsQtyById(idLineType);
     }
 

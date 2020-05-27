@@ -1,5 +1,5 @@
 package com.utn.utnphones.models.enums;
 
-public enum Status {
+public enum LineStatus {
     ENABLED, DISABLED, SUSPENDED;
 }

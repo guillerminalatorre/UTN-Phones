@@ -38,17 +38,17 @@ public class TariffController {
     }
 
     @GetMapping("/ltyfrom={idLocalityFrom}")
-    public List<Tariff> getTariffByLocalityFrom(Integer idLocalityFrom){
+    public List<Tariff> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom){
         return tariffService.getTariffByLocalityFrom( idLocalityFrom);
     }
 
-    @GetMapping("/-price={idTariff}")
-    public Float getTariffPriceById(Integer idTariff){
+    @GetMapping("/{idTariff}/price")
+    public Float getTariffPriceById(@PathVariable(value = "idTariff", required = true) Integer idTariff){
         return tariffService.getTariffPriceById(idTariff);
     }
 
-    @GetMapping("/-cost={idTariff}")
-    public Float getTariffCostById(Integer idTariff){
+    @GetMapping("/{idTariff}/cost")
+    public Float getTariffCostById(@PathVariable(value = "idTariff", required = true) Integer idTariff){
         return tariffService.getTariffCostById(idTariff);
     }
 }

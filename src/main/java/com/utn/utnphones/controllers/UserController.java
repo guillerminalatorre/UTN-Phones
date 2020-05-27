@@ -4,6 +4,7 @@ import com.utn.utnphones.models.User;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,12 +28,13 @@ public class UserController {
     }
 
     @GetMapping("/{idUser}")
-    public User getUserById (Integer idUser){
+    public User getUserById (@PathVariable(value = "idUser", required = true)Integer idUser){
         return this.userService.getUserById(idUser);
     }
 
-    @GetMapping("/-pass={idUser}")
-    public String getPassById(Integer idUser)
+    /*ESTO NO SE VA A QUEDAR*/
+    @GetMapping("/{idUser}/pass}")
+    public String getPassById(@PathVariable(value = "idUser", required = true)Integer idUser)
     {
         return this.userService.getPassById(idUser);
     }

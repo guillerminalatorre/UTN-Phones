@@ -1,4 +1,5 @@
 package com.utn.utnphones.controllers;
+import java.util.ArrayList;
 import java.util.List;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
@@ -44,5 +45,10 @@ public class PhoneLineController {
     @GetMapping("/{number}/status")
     public LineStatus getStatusByNumber (@PathVariable(value = "number", required = true)String number){
         return this.phoneLineService.getStatusByNumber(number);
+    }
+
+    @GetMapping("/user={idUser}")
+    public List<PhoneLine> getPhoneLinesByUser(@PathVariable(value = "id_user", required = true)Integer id_user){
+        return phoneLineService.getPhoneLinesByUser(id_user);
     }
 }

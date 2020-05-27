@@ -24,11 +24,11 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
     List<Bill> findBillsBtwDates(String startDate, String finalDate);
 
     @Query(value = "select b.* from bills b " +
-            "where b.phoneline_phone_number = ?1 " +
+            "where b.phone_line = ?1 " +
             "order by b.id_bill asc", nativeQuery = true)
     List<Bill> findByPhoneNumber(String phone_number);
 
-    @Query( value= "select b.phoneline_phone_number from bills b" +
+    @Query( value= "select b.phone_line from bills b" +
             "where b.idBill = ?1", nativeQuery = true)
     String findPhoneNumberById(Integer idBill);
 }

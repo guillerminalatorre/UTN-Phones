@@ -23,6 +23,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_locality")
     private Locality locality;
 
     @NotNull

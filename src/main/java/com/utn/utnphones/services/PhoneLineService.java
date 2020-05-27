@@ -40,4 +40,12 @@ public class PhoneLineService {
         return phoneLineRepository.findStatusByNumber(phone_number);
     }
 
+    public List<PhoneLine> getPhoneLinesByUser(Integer id_user){
+        List<PhoneLine> phonelines = new ArrayList<PhoneLine>();
+
+        phonelines = phoneLineRepository.findByUser(id_user);
+
+        return phonelines;
+    }
+
 }

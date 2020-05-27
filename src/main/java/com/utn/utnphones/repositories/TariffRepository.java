@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface TariffRepository extends JpaRepository<Tariff, Integer> {
 
-    @Query(value = "select * from tariffs t where t.locality_from_id_locality = ?1 order by t.id_tariff asc", nativeQuery = true)
+    @Query(value = "select * from tariffs t where t.id_locality_from = ?1 order by t.id_tariff asc", nativeQuery = true)
     List<Tariff> findByIdLocalityFrom(Integer idLocalityFrom);
 
     @Query(value = "select t.price from tariffs t where t.id_tariff = ?1", nativeQuery = true)

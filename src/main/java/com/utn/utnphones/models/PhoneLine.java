@@ -23,14 +23,17 @@ public class PhoneLine {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_user")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_line_type")
     private LineType lineType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_locality")
     private Locality locality;
 
     @Enumerated(value = EnumType.STRING)

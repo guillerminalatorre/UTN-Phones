@@ -23,6 +23,7 @@ public class Locality {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_province")
     private Province province;
 
     @NotNull

@@ -22,10 +22,12 @@ public class Tariff {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_locality_from")
     private Locality localityFrom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @JoinColumn(name="id_locality_to")
     private Locality localityTo;
 
     @Column(name = "cost_price")

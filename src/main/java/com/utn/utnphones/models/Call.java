@@ -41,6 +41,16 @@ public class Call {
     @JsonBackReference
     private PhoneLine phoneLineTo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JoinColumn(name="id_locality_from")/**re funcion, re lindo*/
+    private Locality localityFrom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_locality_to")
+    @JsonBackReference
+    private Locality localityTo;
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)/**datetime**/
     private Date date;

@@ -1,0 +1,14 @@
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "18522354" , "Latorre" , "Guillermina" , "7133" , "ADMIN" , 10);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "25333018" , "Castillo" , "Mauro" , "9036" , "ADMIN" , 77);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "24719940" , "Lucotti" , "Valentin" , "3974" , "CLIENT" , 8);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "40210778" , "Suarez" , "Carlos" , "5015" , "CLIENT" , 131);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "13746785" , "Pelufo" , "Camila" , "9877" , "CLIENT" , 11);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "26812749" , "Alaiz" , "Aldana" , "3510" , "CLIENT" , 88);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "30382438" , "Lopez" , "Giselle" , "4361" , "CLIENT" , 133);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "17988922" , "Greco" , "Federico" , "1636" , "CLIENT" , 25);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "13287350" , "Torre" , "Luciano" , "3592" , "CLIENT" , 127);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "22138893" , "Rodriguez" , "Pablo" , "4852" , "CLIENT" , 19);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "40564923" , "Suarez" , "Victoria" , "1666" , "CLIENT" , 26);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "19509437" , "Juarez" , "Sol" , "4066" , "CLIENT" , 45);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "33831172" , "Lopez" , "Giuliano " , "2364" , "CLIENT" , 166);
+INSERT INTO tariffs (id_number, lastname, name, password, user_type, id_locality) values ( "39661689" , "Perez" , "Santiago" , "6925" , "CLIENT" , 68);

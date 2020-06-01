@@ -48,4 +48,7 @@ public class PhoneLineService {
         return phonelines;
     }
 
+    public void addPhoneLine(PhoneLine phoneLine) {
+        this.phoneLineRepository.save(phoneLine);
+    }
 }

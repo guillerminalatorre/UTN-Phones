@@ -43,4 +43,8 @@ public class UserService {
 
         return pass;
     }
+
+    public void addUser(User user) {
+        this.userRepository.save(user);
+    }
 }

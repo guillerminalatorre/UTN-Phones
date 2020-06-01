@@ -20,9 +20,10 @@ public class LineType {
     private Integer idLineType;
 
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
-    @Column(name = "digits_qty")
+    @Column(name = "number_of_digits")
     private Integer digitsQty;
 }

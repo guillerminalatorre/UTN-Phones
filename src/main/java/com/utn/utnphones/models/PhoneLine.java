@@ -18,7 +18,7 @@ import static com.utn.utnphones.models.enums.LineStatus.ENABLED;
 @Data
 public class PhoneLine {
     @Id
-    @Column(name = "phone_number")
+    @Column(name = "id_phone_number")
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,6 +37,6 @@ public class PhoneLine {
     private Locality locality;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(columnDefinition = "varchar(50) default 'ENABLED'")
+    @Column(name = "status" ,columnDefinition = "varchar(50) default 'enabled'")
     private LineStatus status = ENABLED;
 }

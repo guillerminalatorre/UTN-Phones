@@ -1,12 +1,16 @@
 package com.utn.utnphones.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "provinces")
+@Entity
+@Table(name = "provinces")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -19,9 +23,11 @@ public class Province {
     private Integer idProvince;
 
     @NotNull
-    @Column(unique=true)
+    @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "province")
-    List<Locality> localities;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "province",
+            cascade = CascadeType.ALL)
+    List<Locality> localities = new ArrayList<>();
 }

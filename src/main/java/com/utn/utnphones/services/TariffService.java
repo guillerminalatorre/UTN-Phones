@@ -1,12 +1,15 @@
 package com.utn.utnphones.services;
 
+import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
 import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TariffService {
@@ -30,13 +33,19 @@ public class TariffService {
         return tariff;
     }
 
-    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(Integer idLocalityFrom) {
-        //Agregar exception si es null;
-        /*List<Locality> tariffs = new ArrayList<Locality>();
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(Integer idLocalityFrom) throws IdLtyFromTariffsNotFoundException{
 
-        tariffs = tariffRepository.getByIdLocalityFrom(idLocalityFrom);*/
+        List<TariffsByLocalityFrom> tariffs = new ArrayList<TariffsByLocalityFrom>();
 
-        return tariffRepository.findByIdLocalityFrom(idLocalityFrom);
+        tariffs = tariffRepository.findByIdLocalityFrom(idLocalityFrom);
+
+        if(tariffs.isEmpty()){
+            throw new IdLtyFromTariffsNotFoundException(idLocalityFrom);
+        }
+
+        /*Optional.ofNullable(tariffs).orElseThrow(() -> new IdLtyFromTariffsNotFoundException(idLocalityFrom));*/
+
+        return tariffs;
     }
 
     public Float getTariffPriceById(Integer idTariff) {

@@ -1,5 +1,6 @@
 package com.utn.utnphones.controllers;
 
+import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
 import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.services.TariffService;
@@ -37,7 +38,7 @@ public class TariffController {
     }
 
     @GetMapping("/ltyfrom={idLocalityFrom}")
-    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom){
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom) throws IdLtyFromTariffsNotFoundException {
         return tariffService.getTariffByLocalityFrom( idLocalityFrom);
     }
 

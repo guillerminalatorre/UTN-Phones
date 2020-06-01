@@ -1,14 +1,13 @@
 package com.utn.utnphones.controllers;
 
+import com.utn.utnphones.exceptions.UserNotFoundException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,8 @@ public class UserController {
     }
 
     @GetMapping("/{idUser}")
-    public User getUserById (@PathVariable(value = "idUser", required = true)Integer idUser){
+    public ResponseEntity<User> getUserById (@PathVariable(value = "idUser", required = true)Integer idUser) throws UserNotFoundException {
+
         return this.userService.getUserById(idUser);
     }
 
@@ -37,5 +37,17 @@ public class UserController {
     public String getPassById(@PathVariable(value = "idUser", required = true)Integer idUser)
     {
         return this.userService.getPassById(idUser);
+    }
+
+    @RequestMapping(value = "/controller", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity sendViaResponseEntity() {
+        return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @RequestMapping(value = "/exception", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity sendViaException() {
+        throw new UserNotFoundException(0);
     }
 }

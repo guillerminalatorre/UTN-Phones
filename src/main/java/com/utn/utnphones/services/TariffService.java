@@ -1,13 +1,11 @@
 package com.utn.utnphones.services;
 
-import com.utn.utnphones.models.Province;
 import com.utn.utnphones.models.Tariff;
-import com.utn.utnphones.repositories.ProvinceRepository;
+import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,13 +30,13 @@ public class TariffService {
         return tariff;
     }
 
-    public List<Tariff> getTariffByLocalityFrom(Integer idLocalityFrom) {
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(Integer idLocalityFrom) {
         //Agregar exception si es null;
-        List<Tariff> tariffs = new ArrayList<Tariff>();
+        /*List<Locality> tariffs = new ArrayList<Locality>();
 
-        tariffs = tariffRepository.findByIdLocalityFrom(idLocalityFrom);
+        tariffs = tariffRepository.getByIdLocalityFrom(idLocalityFrom);*/
 
-        return tariffs;
+        return tariffRepository.findByIdLocalityFrom(idLocalityFrom);
     }
 
     public Float getTariffPriceById(Integer idTariff) {

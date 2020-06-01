@@ -1,8 +1,7 @@
 package com.utn.utnphones.controllers;
 
-import com.utn.utnphones.models.Province;
 import com.utn.utnphones.models.Tariff;
-import com.utn.utnphones.services.ProvinceService;
+import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +37,7 @@ public class TariffController {
     }
 
     @GetMapping("/ltyfrom={idLocalityFrom}")
-    public List<Tariff> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom){
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom){
         return tariffService.getTariffByLocalityFrom( idLocalityFrom);
     }
 

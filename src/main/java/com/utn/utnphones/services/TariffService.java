@@ -1,6 +1,7 @@
 package com.utn.utnphones.services;
 
 import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
+import com.utn.utnphones.exceptions.TariffNotExistsException;
 import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.repositories.TariffRepository;
@@ -24,11 +25,13 @@ public class TariffService {
         return tariffRepository.findAll();
     }
 
-    public Tariff getTariffById(Integer idTariff) {
+    public Tariff getTariffById(Integer idTariff) throws TariffNotExistsException{
         //Agregar exception si es null;
         Tariff tariff = new Tariff();
 
-        tariff = tariffRepository.findById(idTariff).get();
+        tariff = tariffRepository.getById(idTariff);
+
+        Optional.ofNullable(tariff).orElseThrow(() -> new TariffNotExistsException(idTariff));
 
         return tariff;
     }

@@ -1,6 +1,7 @@
 package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
+import com.utn.utnphones.exceptions.TariffNotExistsException;
 import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.services.TariffService;
@@ -28,7 +29,7 @@ public class TariffController {
     }
 
     @GetMapping("/{idTariff}")
-    public Tariff getTariffById( @PathVariable(value = "idTariff", required = true) Integer idTariff){
+    public Tariff getTariffById( @PathVariable(value = "idTariff", required = true) Integer idTariff) throws TariffNotExistsException {
 
         Tariff reply = new Tariff();
 

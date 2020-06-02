@@ -4,21 +4,20 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity(name = "provinces")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
+@Builder
+@Entity(name = "provinces")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Province {
     @Id
     @Column(name = "id_province")
     @NotNull
     private Integer idProvince;
 
-    @NotNull
     @Column(unique=true)
+    @NotNull
     private String name;
 
 }

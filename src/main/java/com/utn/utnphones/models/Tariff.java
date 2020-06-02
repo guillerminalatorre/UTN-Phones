@@ -1,9 +1,5 @@
 package com.utn.utnphones.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Data
-
 public class Tariff {
     @Id
     @Column(name = "id_tariff")
@@ -34,9 +29,10 @@ public class Tariff {
 
     @Column(name = "cost_price")
     @NotNull
-    private Float costPrice;
+    private Double costPrice;
 
     @NotNull
     @Column(name = "price")
-    private Float price;
+    private Double price;
+
 }

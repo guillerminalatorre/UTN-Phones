@@ -1,5 +1,7 @@
 package com.utn.utnphones.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -14,10 +16,15 @@ public class Province {
     @Id
     @Column(name = "id_province")
     @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProvince;
 
     @Column(unique=true)
     @NotNull
     private String name;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "province",
+            cascade = CascadeType.ALL)
+    List<Locality> localities = new ArrayList<>();
 }

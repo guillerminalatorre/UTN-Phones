@@ -61,4 +61,9 @@ public class ProvinceService {
 
         return reply;
     }
+
+
+    public void addProvince(Province province) {
+        provinceRepository.save(province);
+    }
 }

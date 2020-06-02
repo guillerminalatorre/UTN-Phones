@@ -4,10 +4,7 @@ import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.services.LineTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/line-type")
@@ -32,5 +29,7 @@ public class LineTypeController {
         return lineTypeService.getDigitsQtyById(idLineType);
     }
 
+    @PostMapping("/")
+    public void addLineType(@RequestBody LineType lineType){this.lineTypeService.addLineType(lineType);}
 
 }

@@ -58,4 +58,9 @@ public class ProvinceController {
 
         return reply;
     }
+
+    @PostMapping("/")
+    public void addProvince(@RequestBody Province province){
+        provinceService.addProvince(province);
+    }
 }

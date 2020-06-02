@@ -28,4 +28,7 @@ public class LineTypeService {
         return lineTypeRepository.findDigitsQtyById(idLineType);
     }
 
+    public void addLineType(LineType lineType) {
+        this.lineTypeRepository.save(lineType);
+    }
 }

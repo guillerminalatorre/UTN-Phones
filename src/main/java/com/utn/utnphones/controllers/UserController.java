@@ -39,15 +39,6 @@ public class UserController {
         return this.userService.getPassById(idUser);
     }
 
-    @RequestMapping(value = "/controller", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity sendViaResponseEntity() {
-        return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    @RequestMapping(value = "/exception", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity sendViaException() {
-        throw new UserNotFoundException(0);
-    }
+    @PostMapping("/")
+    public void addUser(@RequestBody User user){this.userService.addUser(user);}
 }

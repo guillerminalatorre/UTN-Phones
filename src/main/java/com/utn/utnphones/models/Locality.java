@@ -14,7 +14,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "localities")
+@Entity
+@Table (name = "localities")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,15 +26,17 @@ public class Locality {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idLocality;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_province")
     @JsonBackReference
-    @JoinColumn(name="id_province")
     private Province province;
 
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
+    @Column(name = "prefix")
     private String prefix;
 
     @OneToMany(mappedBy = "localityFrom")

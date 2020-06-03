@@ -3,10 +3,12 @@ package com.utn.utnphones.services;
 import com.utn.utnphones.models.Province;
 import com.utn.utnphones.repositories.ProvinceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProvinceService {
@@ -65,5 +67,20 @@ public class ProvinceService {
 
     public void addProvince(Province province) {
         provinceRepository.save(province);
+    }
+
+
+
+    public ResponseEntity<Object> putProvince(Province province, Integer id) {
+        Optional<Province> provinceOptional = Optional.ofNullable(getProvinceById(id));
+
+        if (!provinceOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+        province.setIdProvince(id);
+
+        addProvince(province);
+
+        return ResponseEntity.ok().build();
     }
 }

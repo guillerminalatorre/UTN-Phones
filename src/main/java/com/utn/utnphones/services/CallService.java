@@ -2,6 +2,9 @@ package com.utn.utnphones.services;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.utn.utnphones.exceptions.CallByLocalityToNotFound;
+import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.repositories.CallRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +59,15 @@ public class CallService {
         return calls;
     }
 
-    public List<Call> getCallsByLineTo(String phoneLineTo){
+    public List<Call> getCallsByLineTo(String phoneLineTo) throws CallByLocalityToNotFound{
         List<Call> calls = new ArrayList<Call>();
 
-        calls = this.callRepository.findByLineTo( phoneLineTo );
+        calls = this.callRepository.findByLineTo(phoneLineTo);
+
+        if(calls.isEmpty()) {
+
+            throw new CallByLocalityToNotFound(phoneLineTo);
+        }
 
         return calls;
     }

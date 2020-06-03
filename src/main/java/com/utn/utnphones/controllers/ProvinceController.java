@@ -3,6 +3,7 @@ package com.utn.utnphones.controllers;
 import com.utn.utnphones.models.Province;
 import com.utn.utnphones.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -63,4 +64,10 @@ public class ProvinceController {
     public void addProvince(@RequestBody Province province){
         provinceService.addProvince(province);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateProvince(@RequestBody Province province, @PathVariable int id) {
+        return this.provinceService.putProvince(province,id);
+
+	}
 }

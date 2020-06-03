@@ -2,6 +2,7 @@ package com.utn.utnphones.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,26 +33,21 @@ public class Call {
     @JoinColumn(name="id_bill")
     private Bill bill;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name="id_phone_line_from")/**re funcion, re lindo*/
-    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_phone_line_from", referencedColumnName="phone_number", foreignKey = @ForeignKey(name = "fk_id_phone_line_from"))
     private PhoneLine phoneLineFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_phone_line_to")
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_phone_line_to", referencedColumnName="phone_number", foreignKey = @ForeignKey(name = "fk_id_phone_line_to"))
     @NotNull
     private PhoneLine phoneLineTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name="id_locality_from")/**re funcion, re lindo*/
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_locality_from", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_from"))/**re funcion, re lindo*/
     private Locality localityFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_locality_to")
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_locality_to", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_to"))
     private Locality localityTo;
 
     @NotNull

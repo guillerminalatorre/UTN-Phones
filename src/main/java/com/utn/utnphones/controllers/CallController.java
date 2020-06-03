@@ -1,5 +1,6 @@
 package com.utn.utnphones.controllers;
 
+import com.utn.utnphones.exceptions.CallByLocalityToNotFound;
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.services.CallService;
@@ -45,8 +46,8 @@ public class CallController {
         return this.callService.getCallsByLineFrom(phoneLineFrom);
     }
 
-    @GetMapping("/linefrom={idPhoneLineTo}")
-    public List<Call> getCallsByLineTo(@PathVariable(value = "idPhoneLineTo", required = true) String phoneLineTo){
+    @GetMapping("/lineTo/{idPhoneLineTo}")
+    public List<Call> getCallsByLineTo(@PathVariable(value = "idPhoneLineTo", required = true) String phoneLineTo) throws CallByLocalityToNotFound {
         return this.callService.getCallsByLineTo(phoneLineTo);
     }
 

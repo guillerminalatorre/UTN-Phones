@@ -9,9 +9,9 @@
 #jdbc:h2:mem:testdb
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/utnphones #jdbc:mysql://db4free.net:3306/latorrerondinara
+    url: jdbc:mysql://localhost:3306/utn_phones #jdbc:mysql://db4free.net:3306/latorrerondinara
     username: root
-    password:
+    password: calistenia
   jpa:
     hibernate:
       ddl-auto: update

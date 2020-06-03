@@ -34,6 +34,10 @@ public class User {
     @Column( length = 150)
     private String lastname;
 
+    @NotNull
+    @Column(name = "user_name")
+    private String userName;
+
     @Column( unique = true, name = "id_number")
     private String idNumber;
 

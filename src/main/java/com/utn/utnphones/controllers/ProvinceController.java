@@ -3,15 +3,8 @@ package com.utn.utnphones.controllers;
 import com.utn.utnphones.models.Province;
 import com.utn.utnphones.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +57,10 @@ public class ProvinceController {
         reply = provinceService.getProvincesByName(name);
 
         return reply;
+    }
+
+    @PostMapping("/")
+    public void addProvince(@RequestBody Province province){
+        provinceService.addProvince(province);
     }
 }

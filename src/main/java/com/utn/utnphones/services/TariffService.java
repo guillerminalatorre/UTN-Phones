@@ -1,14 +1,16 @@
 package com.utn.utnphones.services;
 
-import com.utn.utnphones.models.Province;
+import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
+import com.utn.utnphones.exceptions.TariffNotExistsException;
 import com.utn.utnphones.models.Tariff;
-import com.utn.utnphones.repositories.ProvinceRepository;
+import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TariffService {
@@ -23,20 +25,28 @@ public class TariffService {
         return tariffRepository.findAll();
     }
 
-    public Tariff getTariffById(Integer idTariff) {
+    public Tariff getTariffById(Integer idTariff) throws TariffNotExistsException{
         //Agregar exception si es null;
         Tariff tariff = new Tariff();
 
-        tariff = tariffRepository.findById(idTariff).get();
+        tariff = tariffRepository.getById(idTariff);
+
+        Optional.ofNullable(tariff).orElseThrow(() -> new TariffNotExistsException(idTariff));
 
         return tariff;
     }
 
-    public List<Tariff> getTariffByLocalityFrom(Integer idLocalityFrom) {
-        //Agregar exception si es null;
-        List<Tariff> tariffs = new ArrayList<Tariff>();
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(Integer idLocalityFrom) throws IdLtyFromTariffsNotFoundException{
+
+        List<TariffsByLocalityFrom> tariffs = new ArrayList<TariffsByLocalityFrom>();
 
         tariffs = tariffRepository.findByIdLocalityFrom(idLocalityFrom);
+
+        if(tariffs.isEmpty()){
+            throw new IdLtyFromTariffsNotFoundException(idLocalityFrom);
+        }
+
+        /*Optional.ofNullable(tariffs).orElseThrow(() -> new IdLtyFromTariffsNotFoundException(idLocalityFrom));*/
 
         return tariffs;
     }

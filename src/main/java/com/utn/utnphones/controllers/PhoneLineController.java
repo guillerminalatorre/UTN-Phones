@@ -1,16 +1,15 @@
 package com.utn.utnphones.controllers;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.utn.utnphones.exceptions.UserNotFoundException;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.models.enums.LineStatus;
 import com.utn.utnphones.services.PhoneLineService;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/phone-line")
@@ -34,13 +33,13 @@ public class PhoneLineController {
         return this.phoneLineService.getPhoneLineByNumber(number);
     }
 
-    @GetMapping("/{number}/user")
-    public User getUserByNumber(@PathVariable(value = "number", required = true)String number){
+    /*@GetMapping("/{number}/user")
+    public User getUserByNumber(@PathVariable(value = "number", required = true)String number) throws UserNotFoundException {
 
         Integer idUser = this.phoneLineService.getUserIdByNumber(number);
 
         return this.userService.getUserById(idUser);
-    }
+    }*/
 
     @GetMapping("/{number}/status")
     public LineStatus getStatusByNumber (@PathVariable(value = "number", required = true)String number){
@@ -51,4 +50,7 @@ public class PhoneLineController {
     public List<PhoneLine> getPhoneLinesByUser(@PathVariable(value = "id_user", required = true)Integer id_user){
         return phoneLineService.getPhoneLinesByUser(id_user);
     }
+
+    @PostMapping("/")
+    public void addPhoneLine(@RequestBody PhoneLine phoneLine){this.phoneLineService.addPhoneLine(phoneLine);}
 }

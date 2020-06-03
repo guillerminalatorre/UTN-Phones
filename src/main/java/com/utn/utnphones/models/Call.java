@@ -1,6 +1,7 @@
 package com.utn.utnphones.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,7 +53,9 @@ public class Call {
     private Locality localityTo;
 
     @NotNull
+    @JoinColumn(name="datee")
     @Temporal(TemporalType.TIMESTAMP)/**datetime**/
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date date;
 
     @NotNull

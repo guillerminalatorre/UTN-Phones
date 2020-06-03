@@ -41,4 +41,8 @@ public class LocalityService {
 
         return reply;
     }
+
+    public void addLocality(Locality locality) {
+        localityRepository.save(locality);
+    }
 }

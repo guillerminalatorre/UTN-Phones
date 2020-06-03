@@ -1,9 +1,15 @@
 package com.utn.utnphones.services;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import com.utn.utnphones.exceptions.UserNotFoundException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -26,12 +32,16 @@ public class UserService {
     }
 
     /*@GetMapping("/{idUser}")*/
-    public User getUserById(Integer idUser){
+    public ResponseEntity<User> getUserById(Integer idUser) throws UserNotFoundException{
         User user = new User();
 
-        user =  this.userRepository.findById(idUser).get();
+        HttpStatus userStatus = HttpStatus.OK;
 
-        return user;
+        user = this.userRepository.getById(idUser);
+
+        Optional.ofNullable(user).orElseThrow(() -> new UserNotFoundException(idUser));
+
+        return new ResponseEntity<User>(user, userStatus);
     }
 
     /*@GetMapping("/-pass={idUser}")*/
@@ -42,5 +52,9 @@ public class UserService {
         pass = this.userRepository.findPassById(idUser);
 
         return pass;
+    }
+
+    public void addUser(User user) {
+        this.userRepository.save(user);
     }
 }

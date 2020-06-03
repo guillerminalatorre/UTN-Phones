@@ -2,6 +2,9 @@ package com.utn.utnphones.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.repositories.CallRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +85,13 @@ public class CallService {
 
     public void addCall(Call call) {
         this.callRepository.save(call);
+    }
+
+    //Prueba lab v
+    public List<Call> getBtwPrefix() {
+        List<Call>  calls =this.callRepository.getBtwPrefix();
+                List<Call> calls2 = this.callRepository.getOtherPrefix();
+        return Stream.concat(calls.stream(), calls2.stream())
+                .collect(Collectors.toList());
     }
 }

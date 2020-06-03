@@ -68,4 +68,13 @@ public class CallController {
     @PostMapping("/")
     public void addCall(@RequestBody Call call){this.callService.addCall(call);}
 
+    //Prueba lab v
+    @GetMapping("/")
+    public List<Call> getPrefixBetween()
+    {
+        return this.callService.getBtwPrefix();
+
+
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.models.Call;
+import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.services.CallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -63,5 +64,8 @@ public class CallController {
 
         return calls;
     }
+
+    @PostMapping("/")
+    public void addCall(@RequestBody Call call){this.callService.addCall(call);}
 
 }

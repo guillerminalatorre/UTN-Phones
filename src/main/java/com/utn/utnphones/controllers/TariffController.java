@@ -2,14 +2,12 @@ package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
 import com.utn.utnphones.exceptions.TariffNotExistsException;
+import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,4 +50,8 @@ public class TariffController {
     public Float getTariffCostById(@PathVariable(value = "idTariff", required = true) Integer idTariff){
         return tariffService.getTariffCostById(idTariff);
     }
+
+    @PostMapping("/")
+    public void addTariff(@RequestBody Tariff tariff){this.tariffService.addTariff(tariff);}
+
 }

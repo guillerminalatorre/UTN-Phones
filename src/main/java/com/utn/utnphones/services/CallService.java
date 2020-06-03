@@ -79,4 +79,8 @@ public class CallService {
 
         return calls;
     }
+
+    public void addCall(Call call) {
+        this.callRepository.save(call);
+    }
 }

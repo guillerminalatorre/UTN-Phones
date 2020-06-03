@@ -32,7 +32,6 @@ public class UserController {
         return this.userService.getUserById(idUser);
     }
 
-    /*ESTO NO SE VA A QUEDAR*/
     @GetMapping("/{idUser}/pass}")
     public String getPassById(@PathVariable(value = "idUser", required = true)Integer idUser)
     {

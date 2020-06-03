@@ -1,13 +1,10 @@
 package com.utn.utnphones.controllers;
 
-import com.utn.utnphones.models.Bill;
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.services.CallService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +54,9 @@ public class CallController {
         return this.callService.getCallsByDate(date);
     }
 
-    @GetMapping("/sdate={startDate}&fdate{finalDate}")
-    public List<Call> getCallsBtwDates(@PathVariable(value = "startDate", required = true) String startDate, @PathVariable(value = "finalDate", required = true) String finalDate){
+    @GetMapping( "/between-dates/{startDate}/{finalDate}")
+    public List<Call> getCallsBtwDates(@PathVariable(value = "startDate", required = true) @DateTimeFormat(pattern = "YYYY-MM-DD") String startDate,
+                                            @PathVariable(value = "finalDate", required = true) @DateTimeFormat(pattern = "YYYY-MM-DD") String finalDate){
         List<Call> calls = new ArrayList<Call>();
 
         calls = this.callService.getCallsBtwDates(startDate, finalDate);

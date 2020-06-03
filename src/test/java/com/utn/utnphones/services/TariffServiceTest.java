@@ -32,7 +32,7 @@ public class TariffServiceTest {
     @Test
     public void testGetTariffByIdOK() throws TariffNotExistsException{
 
-        Province prov = new Province(1, "Buenos Aires");
+        Province prov = new Province(1, "Buenos Aires", null);
 
         Locality fromTo = new Locality(1,prov,"12 de octubre", "2317",null,null);
 

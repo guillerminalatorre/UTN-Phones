@@ -1,6 +1,9 @@
 package com.utn.utnphones.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -23,7 +26,6 @@ public class Province {
     @NotNull
     private String name;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "province",
             cascade = CascadeType.ALL)
     List<Locality> localities = new ArrayList<>();

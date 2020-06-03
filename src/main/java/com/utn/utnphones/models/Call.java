@@ -35,11 +35,13 @@ public class Call {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name="id_phone_line_from")/**re funcion, re lindo*/
+    @NotNull
     private PhoneLine phoneLineFrom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_phone_line_to")
     @JsonBackReference
+    @NotNull
     private PhoneLine phoneLineTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,10 +65,8 @@ public class Call {
     private Date duration;
 
     @Column(name = "cost_price")
-    @NotNull
     private Float costPrice;
 
     @Column(name = "total_price")
-    @NotNull
     private Float totalPrice;
 }

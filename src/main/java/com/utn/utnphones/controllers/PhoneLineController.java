@@ -1,6 +1,8 @@
 package com.utn.utnphones.controllers;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.utn.utnphones.exceptions.UserNotFoundException;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.models.enums.LineStatus;
@@ -31,13 +33,13 @@ public class PhoneLineController {
         return this.phoneLineService.getPhoneLineByNumber(number);
     }
 
-    @GetMapping("/{number}/user")
-    public User getUserByNumber(@PathVariable(value = "number", required = true)String number){
+    /*@GetMapping("/{number}/user")
+    public User getUserByNumber(@PathVariable(value = "number", required = true)String number) throws UserNotFoundException {
 
         Integer idUser = this.phoneLineService.getUserIdByNumber(number);
 
         return this.userService.getUserById(idUser);
-    }
+    }*/
 
     @GetMapping("/{number}/status")
     public LineStatus getStatusByNumber (@PathVariable(value = "number", required = true)String number){

@@ -1,6 +1,5 @@
 package com.utn.utnphones.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,20 +19,20 @@ public class Tariff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTariff;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name="id_locality_from")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_locality_from", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_from"))
     private Locality localityFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name="id_locality_to")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_locality_to", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_to"))
     private Locality localityTo;
 
     @Column(name = "cost_price")
     @NotNull
-    private Float costPrice;
+    private Double costPrice;
 
     @NotNull
-    private Float price;
+    @Column(name = "price")
+    private Double price;
+
 }

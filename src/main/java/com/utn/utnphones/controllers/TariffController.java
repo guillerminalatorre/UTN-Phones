@@ -1,8 +1,9 @@
 package com.utn.utnphones.controllers;
 
-import com.utn.utnphones.models.Province;
+import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
+import com.utn.utnphones.exceptions.TariffNotExistsException;
 import com.utn.utnphones.models.Tariff;
-import com.utn.utnphones.services.ProvinceService;
+import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class TariffController {
     }
 
     @GetMapping("/{idTariff}")
-    public Tariff getTariffById( @PathVariable(value = "idTariff", required = true) Integer idTariff){
+    public Tariff getTariffById( @PathVariable(value = "idTariff", required = true) Integer idTariff) throws TariffNotExistsException {
 
         Tariff reply = new Tariff();
 
@@ -38,7 +39,7 @@ public class TariffController {
     }
 
     @GetMapping("/ltyfrom={idLocalityFrom}")
-    public List<Tariff> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom){
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(@PathVariable(value = "idLocalityFrom", required = true)Integer idLocalityFrom) throws IdLtyFromTariffsNotFoundException {
         return tariffService.getTariffByLocalityFrom( idLocalityFrom);
     }
 

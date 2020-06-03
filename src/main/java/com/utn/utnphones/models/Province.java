@@ -1,20 +1,20 @@
 package com.utn.utnphones.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-@Table(name = "provinces")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
+@Builder
+@Entity(name = "provinces")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Province {
     @Id
     @Column(name = "id_province")
@@ -22,11 +22,10 @@ public class Province {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProvince;
 
+    @Column(unique=true)
     @NotNull
-    @Column(name = "name")
     private String name;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "province",
             cascade = CascadeType.ALL)
     List<Locality> localities = new ArrayList<>();

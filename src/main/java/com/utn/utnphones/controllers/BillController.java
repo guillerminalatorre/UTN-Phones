@@ -71,7 +71,7 @@ public class BillController {
         return bills;
     }
 
-    @GetMapping("/{idBill}/user")
+    /*@GetMapping("/{idBill}/user")
     public User getUserById(@PathVariable(value = "idBill", required = true) Integer idBill){
         String phoneNumber = this.billService.getNumberById(idBill);
 
@@ -79,6 +79,6 @@ public class BillController {
 
         return this.userService.getUserById(idUser);
 
-    }
+    }*/
 
 }

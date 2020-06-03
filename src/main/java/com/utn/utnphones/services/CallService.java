@@ -1,6 +1,5 @@
 package com.utn.utnphones.services;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import com.utn.utnphones.models.Call;

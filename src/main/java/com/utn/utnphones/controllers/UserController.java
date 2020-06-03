@@ -1,11 +1,13 @@
 package com.utn.utnphones.controllers;
 
+import com.utn.utnphones.exceptions.UserNotFoundException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,11 +27,11 @@ public class UserController {
     }
 
     @GetMapping("/{idUser}")
-    public User getUserById (@PathVariable(value = "idUser", required = true)Integer idUser){
+    public ResponseEntity<User> getUserById (@PathVariable(value = "idUser", required = true)Integer idUser) throws UserNotFoundException {
+
         return this.userService.getUserById(idUser);
     }
 
-    /*ESTO NO SE VA A QUEDAR*/
     @GetMapping("/{idUser}/pass}")
     public String getPassById(@PathVariable(value = "idUser", required = true)Integer idUser)
     {

@@ -1,15 +1,13 @@
 package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.models.Bill;
+import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.services.BillService;
 import com.utn.utnphones.services.PhoneLineService;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,5 +78,9 @@ public class BillController {
         return this.userService.getUserById(idUser);
 
     }*/
+
+    @PostMapping("/")
+    public void addBill(@RequestBody Bill bill){this.billService.addBill(bill);}
+
 
 }

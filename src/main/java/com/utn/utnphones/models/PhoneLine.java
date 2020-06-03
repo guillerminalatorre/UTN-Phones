@@ -22,17 +22,17 @@ public class PhoneLine {
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonBackReference(value="id_user")
     @JoinColumn(name="id_user")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonBackReference(value="id_line_type")
     @JoinColumn(name="id_line_type")
     private LineType lineType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonBackReference(value="id_locality")
     @JoinColumn(name="id_locality")
     private Locality locality;
 

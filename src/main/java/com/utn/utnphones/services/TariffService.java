@@ -67,4 +67,7 @@ public class TariffService {
         return price;
     }
 
+    public void addTariff(Tariff tariff) {
+        this.tariffRepository.save(tariff);
+    }
 }

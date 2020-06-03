@@ -78,4 +78,8 @@ public class BillService {
 
         return number;
     }
+
+    public void addBill(Bill bill) {
+        this.billRepository.save(bill);
+    }
 }

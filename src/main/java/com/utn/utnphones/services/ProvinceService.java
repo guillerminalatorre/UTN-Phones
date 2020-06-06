@@ -69,6 +69,8 @@ public class ProvinceService {
         provinceRepository.save(province);
     }
 
+
+
     public ResponseEntity<Object> putProvince(Province province, Integer id) {
         Optional<Province> provinceOptional = Optional.ofNullable(getProvinceById(id));
 

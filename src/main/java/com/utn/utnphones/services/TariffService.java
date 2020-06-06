@@ -70,4 +70,6 @@ public class TariffService {
     public void addTariff(Tariff tariff) {
         this.tariffRepository.save(tariff);
     }
+
+
 }

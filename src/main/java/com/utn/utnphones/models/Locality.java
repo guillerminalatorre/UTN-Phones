@@ -47,4 +47,12 @@ public class Locality {
     @JsonBackReference
     private List<Tariff> tarrifsTo;
 
+    @OneToMany(mappedBy = "localityFrom")
+    @JsonBackReference
+    private List<Call> callsFrom;
+
+    @OneToMany(mappedBy = "localityFrom")
+    @JsonBackReference
+    private List<Call> callsTo;
+
 }

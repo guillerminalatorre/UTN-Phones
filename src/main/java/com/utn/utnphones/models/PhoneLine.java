@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static com.utn.utnphones.models.enums.LineStatus.ENABLED;
 
 @Entity(name = "phone_lines")
@@ -18,7 +20,7 @@ import static com.utn.utnphones.models.enums.LineStatus.ENABLED;
 @Data
 public class PhoneLine {
     @Id
-    @Column(name = "id_phone_number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,4 +41,12 @@ public class PhoneLine {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status" ,columnDefinition = "varchar(50) default 'enabled'")
     private LineStatus status = ENABLED;
+
+    @OneToMany(mappedBy = "phoneLineTo")
+    @JsonBackReference
+    private List<Call> callsFrom;
+
+    @OneToMany(mappedBy = "phoneLineFrom")
+    @JsonBackReference
+    private List<Call> callsTo;
 }

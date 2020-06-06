@@ -18,7 +18,7 @@ public interface CallRepository extends JpaRepository<Call, Integer> {
     @Query(value = "select c.* from calls c where c.id_phone_line_from = ?1 order by c.id_call arc", nativeQuery = true)
     List<Call> findByLineFrom(String phoneLineFrom);
 
-    @Query(value = "select c.* from calls c where c.id_phone_line_to = ?1 order by c.id_call arc", nativeQuery = true)
+    @Query(value = "select concat(c.datee) as 'date', c.*  from calls c where c.id_phone_line_to = ?1 order by c.id_call asc", nativeQuery = true)
     List<Call> findByLineTo(String phoneLineTo);
 
     @Query(value = "select c.* from calls c where convert(DATE, c.date) = ?1 order by c.id_bill asc", nativeQuery = true)

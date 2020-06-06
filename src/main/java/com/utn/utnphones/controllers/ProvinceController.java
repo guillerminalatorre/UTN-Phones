@@ -70,5 +70,5 @@ public class ProvinceController {
     public ResponseEntity<Object> updateProvince(@RequestBody Province province, @PathVariable int id) {
         return this.provinceService.putProvince(province,id);
 
-    }
+	}
 }

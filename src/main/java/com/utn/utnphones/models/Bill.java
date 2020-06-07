@@ -27,26 +27,24 @@ public class Bill {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name="id_phone_line")
+    @JoinColumn(name="id_phone_line", referencedColumnName="id_phone_line", foreignKey = @ForeignKey(name = "fk_phone_line"))
+    @NotNull
     private PhoneLine phoneLine;
 
     @Column(name = "calls_qty", columnDefinition = "integer default 0")
     private Integer callsQty = 0;
 
     @Column(name = "cost_price")
-    @NotNull
     private Float costPrice;
 
     @Column(name = "total_price")
-    @NotNull
     private Float totalPrice;
 
-    @NotNull
+    @Column(name = "datee")
     @Temporal(TemporalType.TIMESTAMP)/**datetime**/
     private Date date;
 
     @Column(name = "due_date")
-    @NotNull
     @Temporal(TemporalType.DATE)/**date**/
     private Date dueDate;
 

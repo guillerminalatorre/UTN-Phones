@@ -27,7 +27,7 @@ public class PhoneLineService {
     public PhoneLine getPhoneLineByNumber(String number){
         PhoneLine phoneline = new PhoneLine();
 
-        phoneline = phoneLineRepository.findById(number).get();
+        phoneline = phoneLineRepository.findByPhoneNumber(number).get();
 
         return phoneline;
     }

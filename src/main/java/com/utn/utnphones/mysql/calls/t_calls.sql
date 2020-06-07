@@ -2,16 +2,16 @@ DELIMITER//
 CREATE TRIGGER TBI_calls before insert on calls for each row
 begin
 
-	if EXISTS (select p.phone_number from phone_lines p where p.phone_number = new.id_phone_line_from) and
-			(select p.phone_number from phone_lines p where p.phone_number = new.id_phone_line_to) then
+	if EXISTS (select p.phone_number from phone_lines p where p.phone_number = new.phone_number_from) and
+			(select p.phone_number from phone_lines p where p.phone_number = new.phone_number_to) then
 		begin
 			declare lty_from integer;
 
 			declare lty_to integer;
 
-			select p.id_locality into lty_from  from phone_lines p where p.phone_number = new.id_phone_line_from;
+			select p.id_locality into lty_from  from phone_lines p where p.phone_number = new.phone_number_from;
 
-			select p.id_locality into lty_to from phone_lines p where p.phone_number = new.id_phone_line_to;
+			select p.id_locality into lty_to from phone_lines p where p.phone_number = new.phone_number_to;
 
 			call sp_tariff_from_call(lty_from, lty_to, @id_tariff);
 

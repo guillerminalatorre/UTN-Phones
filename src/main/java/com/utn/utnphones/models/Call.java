@@ -25,25 +25,24 @@ public class Call {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name="id_tariff")
+    @JoinColumn(name="id_tariff", referencedColumnName="id_tariff", foreignKey = @ForeignKey(name = "fk_id_tariff"))
     private Tariff tariff;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name="id_bill")
+    @JoinColumn(name="id_bill", referencedColumnName="id_bill", foreignKey = @ForeignKey(name = "fk_id_bill"))
     private Bill bill;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_phone_line_from", referencedColumnName="phone_number", foreignKey = @ForeignKey(name = "fk_id_phone_line_from"))
-    private PhoneLine phoneLineFrom;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_phone_line_to", referencedColumnName="phone_number", foreignKey = @ForeignKey(name = "fk_id_phone_line_to"))
+    @Column(name = "phone_number_from")
     @NotNull
-    private PhoneLine phoneLineTo;
+    private String phoneNumberFrom;
+
+    @Column(name = "phone_number_to")
+    @NotNull
+    private String phoneNumberTo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_locality_from", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_from"))/**re funcion, re lindo*/
+    @JoinColumn(name="id_locality_from", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_from"))
     private Locality localityFrom;
 
     @ManyToOne(fetch = FetchType.EAGER)

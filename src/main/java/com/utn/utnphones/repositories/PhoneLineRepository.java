@@ -1,6 +1,8 @@
 package com.utn.utnphones.repositories;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.enums.LineStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +19,6 @@ public interface PhoneLineRepository extends JpaRepository<PhoneLine, String> {
 
     @Query(value = "select p.* from phone_lines p where p.id_user = ?1", nativeQuery = true)
     List<PhoneLine> findByUser(Integer idUser);
+
+    Optional<PhoneLine> findByPhoneNumber(String number);
 }

@@ -43,7 +43,7 @@ public class CallServiceTest {
 
         Locality ltyto = new Locality(269,prov,"Campo piaggio", "3404",null,null,null,null);
 
-        Call call = new Call(9, "2345889625", "3404596730", ltyfrom, ltyto, "2017-06-06 03:57:37", "00:16:52", 29.73, 44.6);
+        /*Call call = new Call(9, "2345889625", "3404596730", ltyfrom, ltyto, "2017-06-06 03:57:37", "00:16:52", 29.73, 44.6);
 
         List<Call> calls = new ArrayList<Call>();
 
@@ -51,7 +51,7 @@ public class CallServiceTest {
 
         when(callRepository.findByLineTo("3404596730")).thenReturn(calls);
 
-        /*Tariff returnedTariff = tariffService.getTariffById(1);
+        Tariff returnedTariff = tariffService.getTariffById(1);
 
         assertEquals(tariff.getIdTariff(), returnedTariff.getIdTariff());
         assertEquals(tariff.getLocalityFrom(), returnedTariff.getLocalityFrom());

@@ -1,6 +1,5 @@
 package com.utn.utnphones.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "tariffs")
 @NoArgsConstructor
@@ -22,11 +20,11 @@ public class Tariff {
     private Integer idTariff;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_locality_from", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_from"))
+    @JoinColumn(name="id_locality_from")
     private Locality localityFrom;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_locality_to", referencedColumnName="id_locality", foreignKey = @ForeignKey(name = "fk_id_locality_to"))
+    @JoinColumn(name="id_locality_to")
     private Locality localityTo;
 
     @Column(name = "cost_price")

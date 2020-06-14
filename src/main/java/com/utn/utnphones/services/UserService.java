@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.utn.utnphones.exceptions.UserAlreadyExistsException;
 import com.utn.utnphones.exceptions.UserNotFoundException;
+import com.utn.utnphones.exceptions.UserNotexistException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +59,27 @@ public class UserService {
     public void addUser(User user) {
         this.userRepository.save(user);
     }
+
+
+     public User login(String username, String password) throws UserNotexistException {
+         User user = userRepository.getByUsername(username, password);
+         return Optional.ofNullable(user).orElseThrow(() -> new UserNotexistException());
+     }
+
+     public User createUser(User user) throws UserAlreadyExistsException {
+         return userRepository.save(user);
+     }
+
+
+     public void removeUser(User user) throws UserNotexistException {
+         userRepository.delete(user);
+     }
+
+     public User updateUser(User user) throws UserNotexistException {
+         return userRepository.save(user);
+     }
+
+     public User getUser(Integer userId){
+         return userRepository.getOne(userId);
+     }
 }

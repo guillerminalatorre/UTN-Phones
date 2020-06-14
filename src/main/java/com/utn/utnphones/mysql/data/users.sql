@@ -1,4 +1,4 @@
-INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "33358190" , "Latorre" , "Guillermina" , "8050" , "ADMIN" , 47);
+INSERT INTO users (id_number, lastname, name, password, user_type, user_name,  id_locality) values ( "33358190" , "Latorre" , "Guillermina" , "8050" , "ADMIN" , "guille", 47);
 INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "28200221" , "Castillo" , "Mauro" , "1878" , "ADMIN" , 167);
 INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "22685847" , "Lucotti" , "Valentin" , "7879" , "CLIENT" , 162);
 INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "19896093" , "Suarez" , "Carlos" , "8706" , "CLIENT" , 71);

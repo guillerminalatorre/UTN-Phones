@@ -1,6 +1,8 @@
 package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.exceptions.UserNotFoundException;
+import com.utn.utnphones.exceptions.UserNotexistException;
+import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    public User login(String username, String password) throws UserNotexistException, ValidationException {
+        if ((username != null) && (password != null)) {
+            return userService.login(username, password);
+        } else {
+            throw new ValidationException("username and password must have a value");
+        }
+    }
 
     @GetMapping("/")
     public List<User> getUsers(){

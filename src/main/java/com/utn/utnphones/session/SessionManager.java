@@ -17,8 +17,7 @@ public class SessionManager {
 
     public SessionManager() {
         sessionMap = new Hashtable<>();
-        createSession(new User(1, new Locality(1,null,null,null,null,null,null,null),
-                "aa", "bb", "cc", "123", "aa", UserType.ADMIN));
+        System.out.println(createSession(new User(0, null,null,null,"aa",null,"aa",null)));
     }
 
     public String createSession(User user) {
@@ -55,6 +54,10 @@ public class SessionManager {
                 sessionMap.remove(k);
             }
         }
+    }
+
+    public boolean activeSessionExist(){
+        return this.sessionMap.isEmpty();
     }
 
     public User getCurrentUser(String token) {

@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Service
 public class SessionFilter extends OncePerRequestFilter {
@@ -22,12 +23,13 @@ public class SessionFilter extends OncePerRequestFilter {
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String sessionToken = request.getHeader("Authorization");
-        Session session = sessionManager.getSession(sessionToken);
-        if (null != session) {
-            filterChain.doFilter(request, response);
-        } else {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+            String sessionToken = request.getHeader("Authorization");
+            Session session = sessionManager.getSession(sessionToken);
+
+            if (null != session || request.getRequestURI().equals("/login/")) { //SI INGRESA POR LOGIN PASA DIRECTO
+                filterChain.doFilter(request, response);
+            } else {
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+            }
         }
-    }
 }

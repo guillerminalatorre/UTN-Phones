@@ -10,30 +10,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 
 @Service
-public class SessionFilter extends OncePerRequestFilter {
+public class AntennaSessionFilter extends OncePerRequestFilter {
 
     @Autowired
     private SessionManager sessionManager;
-
-    private static final String userTypeClient = "CLIENT";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String sessionToken = request.getHeader("Authorization");
-        Session session = sessionManager.getSession(sessionToken);
+            String sessionToken = request.getHeader("Authorization");
 
-        if (null != session) {
-            if (userTypeClient.equals(session.getLoggedUser().getUserType())) {
+            if (sessionToken.equals("12345") && request.getRequestURI().equals("/antenna/") ){
                 filterChain.doFilter(request, response);
             } else {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
-        }
     }
 }

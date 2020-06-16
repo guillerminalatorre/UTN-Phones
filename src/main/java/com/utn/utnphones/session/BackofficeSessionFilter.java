@@ -10,15 +10,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 
 @Service
-public class SessionFilter extends OncePerRequestFilter {
+public class BackofficeSessionFilter extends OncePerRequestFilter {
 
     @Autowired
     private SessionManager sessionManager;
 
-    private static final String userTypeClient = "CLIENT";
+    private static final String userTypeBackoffice = "BACKOFFICE";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -29,7 +28,7 @@ public class SessionFilter extends OncePerRequestFilter {
         Session session = sessionManager.getSession(sessionToken);
 
         if (null != session) {
-            if (userTypeClient.equals(session.getLoggedUser().getUserType())) {
+            if (userTypeBackoffice.equals(session.getLoggedUser().getUserType())) {
                 filterChain.doFilter(request, response);
             } else {
                 response.setStatus(HttpStatus.FORBIDDEN.value());

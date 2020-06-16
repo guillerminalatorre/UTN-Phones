@@ -17,7 +17,6 @@ public class SessionManager {
 
     public SessionManager() {
         sessionMap = new Hashtable<>();
-        System.out.println(createSession(new User(0, null,null,null,"aa",null,"aa",null)));
     }
 
     public String createSession(User user) {
@@ -54,10 +53,6 @@ public class SessionManager {
                 sessionMap.remove(k);
             }
         }
-    }
-
-    public boolean activeSessionExist(){
-        return this.sessionMap.isEmpty();
     }
 
     public User getCurrentUser(String token) {

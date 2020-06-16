@@ -41,4 +41,5 @@ public class Session {
     public void setLastAction(Date lastAction) {
         this.lastAction = lastAction;
     }
+
 }

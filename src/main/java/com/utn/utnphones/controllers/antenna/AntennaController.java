@@ -1,4 +1,4 @@
-package com.utn.utnphones.controllers;
+package com.utn.utnphones.controllers.antenna;
 
 import com.utn.utnphones.dto.AntennaCall;
 import com.utn.utnphones.models.Bill;

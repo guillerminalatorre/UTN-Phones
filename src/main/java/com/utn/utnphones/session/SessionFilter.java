@@ -1,5 +1,6 @@
 package com.utn.utnphones.session;
 
+import com.utn.utnphones.models.enums.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,14 @@ public class SessionFilter extends OncePerRequestFilter {
         Session session = sessionManager.getSession(sessionToken);
 
         if (null != session) {
-            if (userTypeClient.equals(session.getLoggedUser().getUserType())) {
+
+            if (session.getLoggedUser().getUserType() == UserType.CLIENT) {
                 filterChain.doFilter(request, response);
-            } else {
+            }
+            else {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
+
         }
     }
 }

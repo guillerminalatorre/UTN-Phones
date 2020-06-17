@@ -26,8 +26,11 @@ public class AntennaSessionFilter extends OncePerRequestFilter {
 
             if (sessionToken.equals("12345") && request.getRequestURI().equals("/antenna/") ){
                 filterChain.doFilter(request, response);
-            } else {
+            }
+            else {
+
                 response.setStatus(HttpStatus.FORBIDDEN.value());
+
             }
     }
 }

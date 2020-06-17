@@ -24,7 +24,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    /*@GetMapping("/")*/
     public List<User> getUsers(){
         List<User> users = new ArrayList<User>();
 
@@ -33,7 +32,6 @@ public class UserService {
         return users;
     }
 
-    /*@GetMapping("/{idUser}")*/
     public ResponseEntity<User> getUserById(Integer idUser) throws UserNotFoundException{
         User user = new User();
 
@@ -46,7 +44,6 @@ public class UserService {
         return new ResponseEntity<User>(user, userStatus);
     }
 
-    /*@GetMapping("/-pass={idUser}")*/
     public String getPassById(Integer idUser)
     {
         String pass = new String();

@@ -1,5 +1,6 @@
 package com.utn.utnphones.session;
 
+import com.utn.utnphones.models.enums.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,10 @@ public class BackofficeSessionFilter extends OncePerRequestFilter {
         Session session = sessionManager.getSession(sessionToken);
 
         if (null != session) {
-            if (userTypeBackoffice.equals(session.getLoggedUser().getUserType())) {
+            if (session.getLoggedUser().getUserType() == UserType.BACKOFFICE) {
                 filterChain.doFilter(request, response);
-            } else {
+            }
+            else {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
         }

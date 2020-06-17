@@ -27,5 +27,20 @@ public interface CallRepository extends JpaRepository<Call, Integer> {
     @Query(value = "select concat(c.datee) as date, c.* from calls c " +
             "where c.datee BETWEEN DATE_ADD(concat(?1, ' 23:59:59.59'), INTERVAL -1 DAY) and concat( ?2, ' 23:59:59.59') " +
             "order by c.id_bill asc", nativeQuery = true)
-    List<Call> findCallsBtwDates(String date1, String date2);
+    List<Call> getCallsBtwDates(String date1, String date2);
+
+    @Query(value = "select concat(c.datee) as date, c.* " +
+            "from calls c " +
+            "inner join phone_lines pl on c.phone_number_from = pl.phone_number " +
+            "where pl.id_user = ?1 and " +
+            "c.datee BETWEEN DATE_ADD(concat(?2, ' 23:59:59.59'), INTERVAL -1 DAY) and concat( ?3, ' 23:59:59.59') " +
+            "order by c.datee asc", nativeQuery = true)
+    List<Call> getCallsBtwDatesByUser(Integer idUser, String startDate, String finalDate);
+
+    @Query(value = "select c.* " +
+            "from calls c " +
+            "inner join phone_lines pl on c.phone_number_from = pl.phone_number " +
+            "where pl.id_user = ?1 " +
+            "order by c.id_bill asc", nativeQuery = true)
+    List<Call> getCallsFromByUser(Integer idUser);
 }

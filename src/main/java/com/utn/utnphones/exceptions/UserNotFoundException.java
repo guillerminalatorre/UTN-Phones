@@ -9,8 +9,6 @@ public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(Integer idUser) {
 
         super("Id de usuario no encontrada : " + idUser);
-
-        System.out.println(this.getMessage());
     }
 
 }

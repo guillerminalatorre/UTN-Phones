@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.Validation;
 import java.text.ParseException;
 
 @RestControllerAdvice
@@ -20,7 +19,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(InvalidLoginException.class)
     public ErrorResponseDto handleLoginException(InvalidLoginException exc) {
-        return new ErrorResponseDto(1, "Invalid login");
+        return new ErrorResponseDto(1, exc.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -40,5 +39,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     public ErrorResponseDto handleParseException() {
         return new ErrorResponseDto(4, "Not valid dates");
     }
+
 
 }

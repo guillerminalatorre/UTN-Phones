@@ -1,7 +1,7 @@
 package com.utn.utnphones.controllers.client;
 
 
-import com.utn.utnphones.exceptions.UserNotFoundException;
+import com.utn.utnphones.exceptions.InvalidLoginException;
 import com.utn.utnphones.exceptions.UserNotexistException;
 import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.User;
@@ -10,10 +10,7 @@ import com.utn.utnphones.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,22 +26,36 @@ public class UserController {
         this.sessionManager = sessionManager;
     }
 
-    public User login(String username, String password) throws UserNotexistException, ValidationException {
+    /**
+     *
+     * @param username
+     * @param password
+     * @return User
+     * @throws UserNotexistException (the user do not exists, or is not logged)
+     * @throws ValidationException (some param is null)
+     */
+    public User login(String username, String password) throws UserNotexistException, ValidationException, InvalidLoginException {
         if ((username != null) && (password != null)) {
-            User u =  userService.login(username, password);
 
-            return u;
+            User u = userService.login(username, password);
 
-            /*if(u.getUserType().equals("CLIENT")){
+            if(sessionManager.userIsLogged(u)){
+                throw new InvalidLoginException("This user is already logged");
+            }
+            else {
                 return u;
-            }else{
-                return null;
-            }*/
+            }
         } else {
-            throw new ValidationException("username and password must have a value");
+            throw new ValidationException("Username and password must have a value");
         }
     }
 
+    /**
+     *
+     * @param sessionToken
+     * @return 200 0K + UserInfo
+     * @throws UserNotexistException (if the user is not logged or do not exists)
+     */
     @GetMapping("/")
     public ResponseEntity<User> getInfo(@RequestHeader("Authorization") String sessionToken) throws UserNotexistException {
         User currentUser = getCurrentUser(sessionToken);
@@ -53,6 +64,12 @@ public class UserController {
 
     }
 
+    /**
+     *
+     * @param sessionToken
+     * @return Current User
+     * @throws UserNotexistException (if the user is not logged or do not exists)
+     */
     private User getCurrentUser(String sessionToken) throws UserNotexistException {
         return Optional.ofNullable(sessionManager.getCurrentUser(sessionToken)).orElseThrow(UserNotexistException::new);
     }

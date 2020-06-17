@@ -41,6 +41,17 @@ public class SessionManager {
         return session;
     }
 
+    public boolean userIsLogged(User u){
+
+        for (Session session : sessionMap.values()){
+            if(session.getLoggedUser().getIdUser() == u.getIdUser()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void removeSession(String token) {
         sessionMap.remove(token);
     }

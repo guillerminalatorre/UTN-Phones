@@ -1,11 +1,8 @@
 package com.utn.utnphones.exceptions;
 
 public class InvalidLoginException extends Throwable {
-    public InvalidLoginException(Throwable cause) {
-        super(cause);
+    public InvalidLoginException(String message ) {
+        super(message);
     }
 
-    public String getMessage() {
-        return "Invalid login";
-    }
 }

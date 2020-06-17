@@ -2,8 +2,6 @@ package com.utn.utnphones.controllers.web;
 
 
 
-import com.utn.utnphones.controllers.UserrController;
-import com.utn.utnphones.controllers.backoffice.UserBackofficeController;
 import com.utn.utnphones.controllers.client.UserController;
 import com.utn.utnphones.dto.LoginRequestDto;
 import com.utn.utnphones.exceptions.InvalidLoginException;
@@ -30,22 +28,17 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) throws InvalidLoginException, ValidationException {
+    public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) throws ValidationException, UserNotexistException, InvalidLoginException {
 
         ResponseEntity response;
 
-        try {
+        User u = userController.login(loginRequestDto.getUsername(), loginRequestDto.getPassword());
 
-            User u = userController.login(loginRequestDto.getUsername(), loginRequestDto.getPassword());
+        String token = sessionManager.createSession(u);
 
-            String token = sessionManager.createSession(u);
+        response = ResponseEntity.ok().headers(createHeaders(token)).build();
 
-            response = ResponseEntity.ok().headers(createHeaders(token)).build();
 
-        } catch (UserNotexistException e) {
-
-            throw new InvalidLoginException(e);
-        }
         return response;
     }
 

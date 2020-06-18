@@ -11,4 +11,21 @@ public class UtnPhonesApiApplication {
 		SpringApplication.run(UtnPhonesApiApplication.class, args);
 	}
 
+	/*todo
+	* Backoffice:
+	* -alta, baja y sustemsión de lineas.
+	* -consulta de tarifas.
+	* -consulta de llamadas por usuario y rango de fechas.
+	* -consulta de facturación.
+	*
+	* Base de Datos:
+	* -indexes
+	* -scheduler para ejecutar la carga de facturas(sp ya creado)
+	* -NoSql
+	* -Usuarios con permisos para cada tipo (no interviene el el proyecto, solo script ejecutado)
+	*
+	* Test:
+	* -70% necesario.
+	**/
+
 }

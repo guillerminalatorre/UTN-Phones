@@ -37,7 +37,9 @@ public class SessionFilter extends OncePerRequestFilter {
             else {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
-
+        }
+        else {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
         }
     }
 }

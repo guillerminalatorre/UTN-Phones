@@ -45,4 +45,8 @@ public class LocalityService {
     public void addLocality(Locality locality) {
         localityRepository.save(locality);
     }
+
+    public List<Locality> getLocalitiesToByCallIdUser(Integer idUser) {
+        return this.localityRepository.getLocalitiesToByCallIdUser(idUser);
+    }
 }

@@ -2,6 +2,7 @@ package com.utn.utnphones.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.utn.utnphones.models.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,4 +48,7 @@ public class User {
     @Column(name = "user_type", columnDefinition = "varchar(50) default 'CLIENT'")
     @Enumerated(value = EnumType.STRING)
     private UserType userType;
+
+    @Column(name = "active", columnDefinition = "bool default true")
+    private Boolean active;
 }

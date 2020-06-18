@@ -3,7 +3,7 @@ package com.utn.utnphones.controllers.web;
 
 import com.utn.utnphones.dto.ErrorResponseDto;
 import com.utn.utnphones.exceptions.InvalidLoginException;
-import com.utn.utnphones.exceptions.UserNotexistException;
+import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,10 +28,10 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return new ErrorResponseDto(2, exc.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UserNotexistException.class)
-    public ErrorResponseDto handleUserNotExists() {
-        return new ErrorResponseDto(3, "User not exists");
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UserException.class)
+    public ErrorResponseDto handleUserNotExists(UserException exc) {
+        return new ErrorResponseDto(3, exc.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

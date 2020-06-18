@@ -43,7 +43,7 @@ public class AntennaController {
     private URI getLocation(Call call) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/antenna/")
+                .path("/{id}/")
                 .buildAndExpand(call.getIdCall())
                 .toUri();
     }

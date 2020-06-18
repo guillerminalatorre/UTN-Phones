@@ -71,6 +71,14 @@ public class BillService {
         return bills;
     }
 
+    public List<Bill> getBillsBtwDatesByIdUser(String startDate, String finalDate, Integer idUser){
+        List<Bill> bills = new ArrayList<Bill>();
+
+        bills = this.billRepository.findBillsBtwDatesByIdUser(startDate, finalDate, idUser);
+
+        return bills;
+    }
+
     public String getNumberById(Integer idBill){
         String number = new String();
 
@@ -81,5 +89,9 @@ public class BillService {
 
     public void addBill(Bill bill) {
         this.billRepository.save(bill);
+    }
+
+    public List<Bill> getBillsByIdUser(Integer idUser) {
+        return this.billRepository.getBillsByIdUser(idUser);
     }
 }

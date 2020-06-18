@@ -36,5 +36,8 @@ public class BackofficeSessionFilter extends OncePerRequestFilter {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
         }
+        else {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+        }
     }
 }

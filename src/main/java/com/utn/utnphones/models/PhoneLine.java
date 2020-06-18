@@ -44,5 +44,5 @@ public class PhoneLine {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status" ,columnDefinition = "varchar(50) default 'enabled'")
-    private LineStatus status = ENABLED;
+    private LineStatus status = LineStatus.ENABLED;
 }

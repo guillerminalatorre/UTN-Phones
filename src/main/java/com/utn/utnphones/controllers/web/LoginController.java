@@ -2,10 +2,10 @@ package com.utn.utnphones.controllers.web;
 
 
 
-import com.utn.utnphones.controllers.client.UserController;
+import com.utn.utnphones.controllers.client.ClientController;
 import com.utn.utnphones.dto.LoginRequestDto;
 import com.utn.utnphones.exceptions.InvalidLoginException;
-import com.utn.utnphones.exceptions.UserNotexistException;
+import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.session.SessionManager;
@@ -18,21 +18,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class LoginController {
 
-    UserController userController;
+    ClientController clientController;
     SessionManager sessionManager;
 
     @Autowired
-    public LoginController(UserController userController, SessionManager sessionManager) {
-        this.userController = userController;
+    public LoginController(ClientController clientController, SessionManager sessionManager) {
+        this.clientController = clientController;
         this.sessionManager = sessionManager;
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) throws ValidationException, UserNotexistException, InvalidLoginException {
+    public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) throws ValidationException, UserException, InvalidLoginException {
 
         ResponseEntity response;
 
-        User u = userController.login(loginRequestDto.getUsername(), loginRequestDto.getPassword());
+        User u = clientController.login(loginRequestDto.getUsername(), loginRequestDto.getPassword());
 
         String token = sessionManager.createSession(u);
 

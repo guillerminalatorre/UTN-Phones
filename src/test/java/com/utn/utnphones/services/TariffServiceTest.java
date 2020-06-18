@@ -3,17 +3,12 @@ package com.utn.utnphones.services;
 import com.utn.utnphones.exceptions.TariffNotExistsException;
 import com.utn.utnphones.models.Locality;
 import com.utn.utnphones.models.Province;
-import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.repositories.TariffRepository;
-import lombok.Data;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.text.DecimalFormat;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class TariffServiceTest {

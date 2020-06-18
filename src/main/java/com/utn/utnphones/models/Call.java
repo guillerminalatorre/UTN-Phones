@@ -8,8 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 @Entity(name = "calls")
@@ -52,11 +54,13 @@ public class Call {
     @NotNull
     @JoinColumn(name="datee")
     @Temporal(TemporalType.TIMESTAMP)/**datetime**/
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date date;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private Date datee;
 
     @NotNull
     @Temporal(TemporalType.TIME)/**date**/
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private Date duration;
 
     @Column(name = "cost_price")

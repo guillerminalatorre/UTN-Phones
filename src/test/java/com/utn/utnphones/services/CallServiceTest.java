@@ -1,22 +1,14 @@
 package com.utn.utnphones.services;
 
 import com.utn.utnphones.exceptions.CallByLocalityToNotFound;
-import com.utn.utnphones.exceptions.TariffNotExistsException;
-import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.Locality;
 import com.utn.utnphones.models.Province;
-import com.utn.utnphones.models.Tariff;
 import com.utn.utnphones.repositories.CallRepository;
-import com.utn.utnphones.repositories.TariffRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CallServiceTest {

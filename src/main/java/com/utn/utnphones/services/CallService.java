@@ -83,12 +83,25 @@ public class CallService {
     public List<Call> getCallsBtwDates(String date1, String date2){
         List<Call> calls = new ArrayList<Call>();
 
-        calls = this.callRepository.findCallsBtwDates(date1, date2);
+        calls = this.callRepository.getCallsBtwDates(date1, date2);
 
         return calls;
     }
 
-    public void addCall(Call call) {
-        this.callRepository.save(call);
+    public Call addCall(Call call) {
+        Call savedCall =  callRepository.save(call);
+        return savedCall;
+    }
+
+    public List<Call> getCallsBtwDatesByUser(Integer idUser, String startDate, String finalDate) {
+        List<Call> calls = new ArrayList<Call>();
+
+        calls = this.callRepository.getCallsBtwDatesByUser(idUser, startDate, finalDate);
+
+        return calls;
+    }
+
+    public List<Call> getCallsFromByUser(Integer idUser){
+        return this.callRepository.getCallsFromByUser(idUser);
     }
 }

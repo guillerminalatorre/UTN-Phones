@@ -13,11 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/call")
-public class CalllController {
+public class CallController {
     private final CallService callService;
     
     @Autowired
-    public CalllController(final CallService callService){
+    public CallController(final CallService callService){
         this.callService = callService;
     }
 

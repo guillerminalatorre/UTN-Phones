@@ -19,14 +19,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/call")
-public class CallController {
+public class CallllController {
 
     private final CallService callService;
     private final LocalityService localityService;
     private final SessionManager sessionManager;
 
     @Autowired
-    public CallController(final CallService callService, final SessionManager sessionManager, final LocalityService localityService){
+    public CallllController(final CallService callService, final SessionManager sessionManager, final LocalityService localityService){
         this.callService = callService;
         this.sessionManager = sessionManager;
         this.localityService = localityService;

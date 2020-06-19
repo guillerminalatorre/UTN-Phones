@@ -1,5 +1,6 @@
 package com.utn.utnphones.controllers;
 
+import com.utn.utnphones.dto.UserDto;
 import com.utn.utnphones.exceptions.UserNotFoundException;
 import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.exceptions.ValidationException;
@@ -11,15 +12,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/user")
+//@RestController
+//@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
-    @Autowired
+    //@Autowired
     public UserController(final UserService userService){
         this.userService = userService;
     }
+
+    //
+    public ResponseEntity<User> update(Integer idUser, UserDto user) throws javax.xml.bind.ValidationException, UserException {
+
+        return ResponseEntity.ok(this.userService.update( idUser , user));
+    }
+
 
     public User login(String username, String password) throws UserException, ValidationException {
         if ((username != null) && (password != null)) {
@@ -29,18 +37,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/")
+    //@GetMapping("/")
     public List<User> getUsers(){
         return this.userService.getUsers();
     }
 
-    @GetMapping("/{idUser}")
+   // @GetMapping("/{idUser}")
     public ResponseEntity<User> getUserById (@PathVariable(value = "idUser", required = true)Integer idUser) throws UserNotFoundException {
 
         return ResponseEntity.ok(this.userService.getUserById(idUser));
     }
 
-    @GetMapping("/{idUser}/pass}")
+   // @GetMapping("/{idUser}/pass}")
     public String getPassById(@PathVariable(value = "idUser", required = true)Integer idUser)
     {
         return this.userService.getPassById(idUser);

@@ -14,13 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bill")
-public class BilllController {
+public class BillController {
     private final BillService billService;
     private final PhoneLineService phoneLineService;
     private final UserService userService;
 
     @Autowired
-    public BilllController(final BillService billService, final PhoneLineService phoneLineService, final UserService userService){
+    public BillController(final BillService billService, final PhoneLineService phoneLineService, final UserService userService){
         this.billService = billService;
         this.phoneLineService = phoneLineService;
         this.userService = userService;

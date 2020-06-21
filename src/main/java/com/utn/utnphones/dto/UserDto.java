@@ -1,17 +1,8 @@
 package com.utn.utnphones.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.NotNull;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.utn.utnphones.models.Locality;
-import com.utn.utnphones.models.enums.UserType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.*;
-
-@Getter
-@Setter
+@Data
 public class UserDto {
 
     private Integer idLocality;
@@ -21,8 +12,6 @@ public class UserDto {
     private String lastname;
 
     private String username;
-
-    private String idNumber;
 
     private String password;
 

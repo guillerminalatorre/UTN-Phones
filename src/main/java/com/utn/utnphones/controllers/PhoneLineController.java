@@ -1,18 +1,25 @@
 package com.utn.utnphones.controllers;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.utn.utnphones.exceptions.UserNotFoundException;
+import com.utn.utnphones.dto.PhoneLineDto;
+import com.utn.utnphones.exceptions.GoneException;
+import com.utn.utnphones.exceptions.PhoneLineNotExistsException;
+import com.utn.utnphones.exceptions.ValidationException;
+import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.models.PhoneLine;
-import com.utn.utnphones.models.User;
 import com.utn.utnphones.models.enums.LineStatus;
 import com.utn.utnphones.services.PhoneLineService;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.util.List;
 
-@RestController
-@RequestMapping("/phone-line")
+import java.net.URI;
+import java.util.Optional;
+
+@Controller
 public class PhoneLineController {
     private final PhoneLineService phoneLineService;
     private final UserService userService;
@@ -23,34 +30,59 @@ public class PhoneLineController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public List<PhoneLine> getPhoneLines(){
-        return this.phoneLineService.getPhoneLines();
+    public ResponseEntity add(@RequestBody PhoneLineDto phoneLine) throws ValidationException, UserException {
+
+        return ResponseEntity.created(getLocation(this.phoneLineService.add(phoneLine))).build();
     }
 
-    @GetMapping("/{number}")
-    public PhoneLine getPhoneLineByNumber(@PathVariable(value = "number", required = true) String number){
-        return this.phoneLineService.getPhoneLineByNumber(number);
+    private URI getLocation(PhoneLine phoneLine) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}/")
+                .buildAndExpand(phoneLine.getIdPhoneLine())
+                .toUri();
     }
 
-    /*@GetMapping("/{number}/user")
-    public User getUserByNumber(@PathVariable(value = "number", required = true)String number) throws UserNotFoundException {
+    public ResponseEntity<PhoneLine> changeStatus(Integer idPhoneLine, String status) throws PhoneLineNotExistsException, GoneException, ValidationException {
+        PhoneLine phoneLine = this.phoneLineService.getById(idPhoneLine);
 
-        Integer idUser = this.phoneLineService.getUserIdByNumber(number);
+        if(phoneLine == null) {
+            return (ResponseEntity<PhoneLine>) Optional.ofNullable(null).orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
+        }
 
-        return this.userService.getUserById(idUser);
-    }*/
+        if(!status.equals("disable")){
+                if(!status.equals("enable")){
+                        if(!status.equals("suspend")){
+                            return (ResponseEntity<PhoneLine>) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Path \"status\" is not valid"));
+                        }else{
+                            phoneLine.setStatus(LineStatus.SUSPENDED);
+                        }
+                }else{
+                    phoneLine.setStatus(LineStatus.ENABLED);
+                }
+        }else{
+            phoneLine.setStatus(LineStatus.DISABLED);
+        }
 
-    @GetMapping("/{number}/status")
-    public LineStatus getStatusByNumber (@PathVariable(value = "number", required = true)String number){
-        return this.phoneLineService.getStatusByNumber(number);
+        return ResponseEntity.ok(this.phoneLineService.update(phoneLine));
     }
 
-    @GetMapping("/user={idUser}")
-    public List<PhoneLine> getPhoneLinesByUser(@PathVariable(value = "id_user", required = true)Integer id_user){
-        return phoneLineService.getPhoneLinesByUser(id_user);
+
+    public ResponseEntity<PhoneLine> delete(Integer idPhoneLine) throws PhoneLineNotExistsException, GoneException {
+
+        PhoneLine phoneLine = this.phoneLineService.getById(idPhoneLine);
+
+        phoneLine.setActive(false);
+
+        return ResponseEntity.ok(this.phoneLineService.update(phoneLine));
     }
 
-    @PostMapping("/")
-    public void addPhoneLine(@RequestBody PhoneLine phoneLine){this.phoneLineService.addPhoneLine(phoneLine);}
+    public ResponseEntity<PhoneLine> getPhoneLineByNumber(String number) throws PhoneLineNotExistsException, GoneException {
+        return ResponseEntity.ok(this.phoneLineService.getPhoneLineByNumber(number));
+    }
+
+    public ResponseEntity<List<PhoneLine>> getPhoneLines(){
+        return ResponseEntity.ok(this.phoneLineService.getPhoneLines());
+    }
+
 }

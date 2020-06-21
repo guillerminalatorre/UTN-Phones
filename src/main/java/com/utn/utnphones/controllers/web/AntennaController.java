@@ -1,5 +1,6 @@
-package com.utn.utnphones.controllers.antenna;
+package com.utn.utnphones.controllers.web;
 
+import com.utn.utnphones.controllers.CallController;
 import com.utn.utnphones.dto.AntennaCall;
 import com.utn.utnphones.models.Bill;
 import com.utn.utnphones.models.Call;
@@ -22,11 +23,11 @@ import java.net.URI;
 @RestController
 @RequestMapping("/antenna")
 public class AntennaController {
-    private final CallService callService;
+    private final CallController callController;
 
     @Autowired
-    public AntennaController(final CallService callService){
-        this.callService = callService;
+    public AntennaController(final CallController callController){
+        this.callController = callController;
     }
 
     @PostMapping("/")
@@ -35,9 +36,9 @@ public class AntennaController {
         Call send = new Call(0, null, null ,call.getPhoneNumberFrom(),call.getPhoneNumberTo(),null,null, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(call.getDatee()),
                 new SimpleDateFormat("HH:mm:ss").parse(call.getDuration()),null,null);
 
-        this.callService.addCall(send);
+        Call saved = this.callController.addCall(send);
 
-        return ResponseEntity.created(getLocation(send)).build();
+        return ResponseEntity.created(getLocation(saved)).build();
     }
 
     private URI getLocation(Call call) {

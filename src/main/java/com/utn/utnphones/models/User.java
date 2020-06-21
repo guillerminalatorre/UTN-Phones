@@ -1,6 +1,7 @@
 package com.utn.utnphones.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.utn.utnphones.models.enums.UserType;
@@ -36,13 +37,14 @@ public class User {
     private String lastname;
 
     @NotNull
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     private String userName;
 
     @Column( unique = true, name = "id_number")
     private String idNumber;
 
     @NotNull
+    @JsonIgnore
     private String password;
 
     @Column(name = "user_type", columnDefinition = "varchar(50) default 'CLIENT'")

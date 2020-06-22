@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface LineTypeRepository extends JpaRepository<LineType, Integer> {
 
-    @Query(value = "select l.* from line_types l where l.id_line_type = ?1", nativeQuery = true)
+    @Query(value = "select l.* from line_types l where l.id_line_type = ?1 ", nativeQuery = true)
     LineType getById(Integer idLineType);
 }

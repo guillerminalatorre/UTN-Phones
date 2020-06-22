@@ -12,12 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import org.mockito.Mock;
-import org.mockito.stubbing.OngoingStubbing;
-
-import javax.validation.Validation;
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
 

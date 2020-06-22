@@ -7,8 +7,7 @@ import com.utn.utnphones.dto.PhoneLineDto;
 import com.utn.utnphones.exceptions.GoneException;
 import com.utn.utnphones.exceptions.PhoneLineNotExistsException;
 import com.utn.utnphones.exceptions.ValidationException;
-import com.utn.utnphones.exceptions.UserException;
-import com.utn.utnphones.models.Call;
+import com.utn.utnphones.exceptions.UserException;;
 import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
@@ -18,7 +17,6 @@ import com.utn.utnphones.repositories.PhoneLineRepository;
 import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -53,9 +51,7 @@ public class PhoneLineService {
             saved.setStatus(LineStatus.ENABLED);
         }
 
-        LineType lineType = new LineType();
-
-        lineType = this.lineTypeRepository.getById(phoneLineDto.getIdLineType());
+        LineType lineType = this.lineTypeRepository.getById(phoneLineDto.getIdLineType());
 
         if(lineType == null){
             return (PhoneLine) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("LineType is not valid"));

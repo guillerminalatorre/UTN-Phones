@@ -1,79 +1,97 @@
 package com.utn.utnphones.services;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.models.Bill;
-import com.utn.utnphones.models.User;
 import com.utn.utnphones.repositories.BillRepository;
-import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BillService {
     private final BillRepository billRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public BillService(final BillRepository billRepository, UserRepository userRepository){
+    public BillService (final BillRepository billRepository){
         this.billRepository = billRepository;
-        this.userRepository = userRepository;
     }
 
-    public ResponseEntity<List<Bill>> getBillsByIdUser(Integer idUser) throws UserException {
-
-        User u = new User();
-
-        if((u = this.userRepository.getById(idUser)) == null){
-            return (ResponseEntity<List<Bill>>) Optional.ofNullable(null).orElseThrow(() -> new UserException("User not exists"));
-        }
-
+    public List<Bill> getBills(){
         List<Bill> bills = new ArrayList<Bill>();
 
-        bills = this.billRepository.getBillsByIdUser(idUser);
+        bills = this.billRepository.findAll();
 
-        if (!bills.isEmpty()) {
-            return ResponseEntity.ok(bills);
-
-        } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
-        }
-
+        return bills;
     }
 
-    public ResponseEntity<List<Bill>> getBillsBtwDatesByIdUser(String startDate, String finalDate, Integer idUser) throws UserException {
-        User u = new User();
+    public Bill getBillById(Integer idBill){
+        Bill bill = new Bill();
 
-        if((u = this.userRepository.getById(idUser)) == null){
-            return (ResponseEntity<List<Bill>>) Optional.ofNullable(null).orElseThrow(() -> new UserException("User not exists"));
-        }
+        bill = this.billRepository.findById(idBill).get();
 
+        return bill;
+    }
+
+    public List<Bill> getBillsByPhoneNumber(String phone_number){
         List<Bill> bills = new ArrayList<Bill>();
 
-        bills =this.billRepository.findBillsBtwDatesByIdUser(startDate, finalDate, idUser);
+        bills = this.billRepository.findByPhoneNumber(phone_number);
 
-        if(!bills.isEmpty()){
-            return ResponseEntity.ok(bills);
-        }else{
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+        return bills;
     }
 
-    public ResponseEntity<List<Bill>> getBillsBtwDates(String startDate, String finalDate){
+    public List<Bill> getBillsPaid(){
+        List<Bill> bills = new ArrayList<Bill>();
+
+        bills = this.billRepository.findAllPaids();
+
+        return bills;
+    }
+
+    public List<Bill> getBillsUnpaid(){
+        List<Bill> bills = new ArrayList<Bill>();
+
+        bills = this.billRepository.findAllUnpaid();
+
+        return bills;
+    }
+
+    public List<Bill> getBillsFromDate(String date){
+        List<Bill> bills = new ArrayList<Bill>();
+
+        bills = this.billRepository.findBillsFromDate(date);
+
+        return bills;
+    }
+
+    public List<Bill> getBillsBtwDates(String startDate, String finalDate){
         List<Bill> bills = new ArrayList<Bill>();
 
         bills = this.billRepository.findBillsBtwDates(startDate, finalDate);
 
-        if(!bills.isEmpty()){
-            return ResponseEntity.ok(bills);
-        }else{
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+        return bills;
     }
 
+    public List<Bill> getBillsBtwDatesByIdUser(String startDate, String finalDate, Integer idUser){
+        List<Bill> bills = new ArrayList<Bill>();
+
+        bills = this.billRepository.findBillsBtwDatesByIdUser(startDate, finalDate, idUser);
+
+        return bills;
+    }
+
+    public String getNumberById(Integer idBill){
+        String number = new String();
+
+        number = this.billRepository.findPhoneNumberById( idBill);
+
+        return number;
+    }
+
+    public void addBill(Bill bill) {
+        this.billRepository.save(bill);
+    }
+
+    public List<Bill> getBillsByIdUser(Integer idUser) {
+        return this.billRepository.getBillsByIdUser(idUser);
+    }
 }

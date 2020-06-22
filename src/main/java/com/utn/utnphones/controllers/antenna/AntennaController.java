@@ -1,8 +1,6 @@
-package com.utn.utnphones.controllers.web;
+package com.utn.utnphones.controllers.antenna;
 
-import com.utn.utnphones.controllers.CallController;
 import com.utn.utnphones.dto.AntennaCall;
-import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.Bill;
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.Locality;
@@ -20,33 +18,26 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/antenna")
 public class AntennaController {
-    private final CallController callController;
+    private final CallService callService;
 
     @Autowired
-    public AntennaController(final CallController callController){
-        this.callController = callController;
+    public AntennaController(final CallService callService){
+        this.callService = callService;
     }
 
     @PostMapping("/")
-    public ResponseEntity addCall(@RequestHeader("Authorization") String sessionToken, @RequestBody AntennaCall call) throws ParseException, ValidationException {
+    public ResponseEntity addCall(@RequestHeader("Authorization") String sessionToken, @RequestBody AntennaCall call) throws ParseException {
 
         Call send = new Call(0, null, null ,call.getPhoneNumberFrom(),call.getPhoneNumberTo(),null,null, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(call.getDatee()),
                 new SimpleDateFormat("HH:mm:ss").parse(call.getDuration()),null,null);
 
-        ResponseEntity<Call> saved;
+        this.callService.addCall(send);
 
-        try {
-            saved = this.callController.addCall(send);
-            return ResponseEntity.created(getLocation(saved.getBody())).build();
-        }catch (ValidationException e) {
-            return (ResponseEntity<Call>) Optional.ofNullable(null).orElseThrow(() -> new ValidationException(e.getMessage()));
-        }
-
+        return ResponseEntity.created(getLocation(send)).build();
     }
 
     private URI getLocation(Call call) {

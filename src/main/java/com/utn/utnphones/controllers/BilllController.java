@@ -1,6 +1,5 @@
 package com.utn.utnphones.controllers;
 
-import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.models.Bill;
 import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.models.User;
@@ -8,8 +7,6 @@ import com.utn.utnphones.services.BillService;
 import com.utn.utnphones.services.PhoneLineService;
 import com.utn.utnphones.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,38 +14,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bill")
-public class BillController {
+public class BilllController {
     private final BillService billService;
     private final PhoneLineService phoneLineService;
     private final UserService userService;
 
     @Autowired
-    public BillController(final BillService billService, final PhoneLineService phoneLineService, final UserService userService){
+    public BilllController(final BillService billService, final PhoneLineService phoneLineService, final UserService userService){
         this.billService = billService;
         this.phoneLineService = phoneLineService;
         this.userService = userService;
     }
 
-    public ResponseEntity<List<Bill>> getBillsByIdUser(Integer idUser) throws UserException {
-
-        return this.billService.getBillsByIdUser(idUser);
-    }
-
-    public ResponseEntity<List<Bill>> getBillsBtwDatesByIdUser(String startDate, String finalDate, Integer idUser ) throws UserException {
-
-       return this.billService.getBillsBtwDatesByIdUser(startDate, finalDate, idUser);
-    }
-
-    public ResponseEntity<List<Bill>> getBillsBtwDates(@PathVariable(value = "startDate", required = true) String startDate, @PathVariable(value = "finalDate", required = true) String finalDate){
-
-        return this.billService.getBillsBtwDates(startDate, finalDate);
-    }
-
-
-
-
-
-    /*
     @GetMapping("/")
     public List<Bill> getBills(){
         return this.billService.getBills();
@@ -100,10 +77,10 @@ public class BillController {
 
         return this.userService.getUserById(idUser);
 
-    }
+    }*/
 
     @PostMapping("/")
-    public void addBill(@RequestBody Bill bill){this.billService.addBill(bill);}*/
+    public void addBill(@RequestBody Bill bill){this.billService.addBill(bill);}
 
 
 }

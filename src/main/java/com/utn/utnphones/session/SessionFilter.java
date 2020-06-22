@@ -31,7 +31,7 @@ public class SessionFilter extends OncePerRequestFilter {
 
         if (null != session) {
 
-            if (session.getLoggedUser().getUserType() == UserType.CLIENT && session.getLoggedUser().getActive() == true) {
+            if (session.getLoggedUser().getUserType() == UserType.CLIENT) {
                 filterChain.doFilter(request, response);
             }
             else {

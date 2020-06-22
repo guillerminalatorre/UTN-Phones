@@ -291,4 +291,3 @@ INSERT phone_lines (phone_number,id_line_type,id_user) values( "2901362418" , 1 
 INSERT phone_lines (phone_number,id_line_type,id_user) values( "2964685529" , 1 , 14 );
 INSERT phone_lines (phone_number,id_line_type,id_user) values( "3863635494" , 1 , 6 );
 INSERT phone_lines (phone_number,id_line_type,id_user) values( "2317154148" , 1 , 5 );
-INSERT into phone_lines (phone_number, id_user ,id_line_type, status ) values ("2317678906", 1 ,1 , "ENABLED");

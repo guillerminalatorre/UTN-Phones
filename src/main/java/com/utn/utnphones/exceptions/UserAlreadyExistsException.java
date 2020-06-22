@@ -1,4 +1,4 @@
 package com.utn.utnphones.exceptions;
 
-public class UserAlreadyExistsException extends Exception {
+public class UserAlreadyExistsException extends RecordExistsException {
 }

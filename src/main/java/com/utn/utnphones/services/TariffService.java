@@ -1,11 +1,11 @@
 package com.utn.utnphones.services;
 
+import com.utn.utnphones.exceptions.IdLtyFromTariffsNotFoundException;
 import com.utn.utnphones.exceptions.TariffNotExistsException;
 import com.utn.utnphones.models.Tariff;
+import com.utn.utnphones.projections.TariffsByLocalityFrom;
 import com.utn.utnphones.repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,24 +21,55 @@ public class TariffService {
         this.tariffRepository = tariffRepository;
     }
 
-    public ResponseEntity<List<Tariff>> getTariffs(){
-        List<Tariff> tariffs = new ArrayList<Tariff>();
-
-        tariffs = tariffRepository.findAll();
-
-        if(!tariffs.isEmpty()){
-            return ResponseEntity.ok(tariffs);
-        }else{
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+    public List<Tariff> getTariffs(){
+        return tariffRepository.findAll();
     }
 
-    public Tariff getTariffByLocalityFromTo(Integer idLocalityFrom, Integer idLocalityTo) throws TariffNotExistsException {
+    public Tariff getTariffById(Integer idTariff) throws TariffNotExistsException{
+        //Agregar exception si es null;
         Tariff tariff = new Tariff();
 
-        tariff = tariffRepository.getTariffByLocalityFromTo(idLocalityFrom, idLocalityTo);
+        tariff = tariffRepository.getById(idTariff);
 
-        return  Optional.ofNullable(tariff).orElseThrow(() -> new TariffNotExistsException("Tariff do not exists"));
+        Optional.ofNullable(tariff).orElseThrow(() -> new TariffNotExistsException(idTariff));
+
+        return tariff;
     }
+
+    public List<TariffsByLocalityFrom> getTariffByLocalityFrom(Integer idLocalityFrom) throws IdLtyFromTariffsNotFoundException{
+
+        List<TariffsByLocalityFrom> tariffs = new ArrayList<TariffsByLocalityFrom>();
+
+        tariffs = tariffRepository.findByIdLocalityFrom(idLocalityFrom);
+
+        if(tariffs.isEmpty()){
+            throw new IdLtyFromTariffsNotFoundException(idLocalityFrom);
+        }
+
+        /*Optional.ofNullable(tariffs).orElseThrow(() -> new IdLtyFromTariffsNotFoundException(idLocalityFrom));*/
+
+        return tariffs;
+    }
+
+    public Float getTariffPriceById(Integer idTariff) {
+        //Agregar exception si es null;
+
+        Float price = tariffRepository.findPriceById(idTariff);
+
+        return price;
+    }
+
+    public Float getTariffCostById(Integer idTariff) {
+        //Agregar exception si es null;
+
+        Float price = tariffRepository.findCostById(idTariff);
+
+        return price;
+    }
+
+    public void addTariff(Tariff tariff) {
+        this.tariffRepository.save(tariff);
+    }
+
 
 }

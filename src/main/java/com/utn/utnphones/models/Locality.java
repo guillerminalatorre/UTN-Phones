@@ -21,6 +21,7 @@ public class Locality {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_province", referencedColumnName="id_province", foreignKey = @ForeignKey(name = "fk_id_province"))
+    @JsonBackReference
     private Province province;
 
     @NotNull

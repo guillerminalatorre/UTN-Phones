@@ -1,7 +1,7 @@
 package com.utn.utnphones.services;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.List;
+<<<<<<< HEAD
 
 import com.utn.utnphones.dto.PhoneLineDto;
 import com.utn.utnphones.exceptions.GoneException;
@@ -9,26 +9,26 @@ import com.utn.utnphones.exceptions.PhoneLineNotExistsException;
 import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.exceptions.UserException;;
 import com.utn.utnphones.models.LineType;
+=======
+>>>>>>> parent of 5e7514a... Merge branch 'UTN-Phones-B1'
 import com.utn.utnphones.models.PhoneLine;
-import com.utn.utnphones.models.User;
 import com.utn.utnphones.models.enums.LineStatus;
-import com.utn.utnphones.repositories.LineTypeRepository;
 import com.utn.utnphones.repositories.PhoneLineRepository;
-import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.dao.DataIntegrityViolationException;
+=======
+>>>>>>> parent of 5e7514a... Merge branch 'UTN-Phones-B1'
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class PhoneLineService {
     private final PhoneLineRepository phoneLineRepository;
-    private final UserRepository userRepository;
-    private final LineTypeRepository lineTypeRepository;
 
     @Autowired
-    public PhoneLineService(final PhoneLineRepository phoneLineRepository, UserRepository userRepository, LineTypeRepository lineTypeRepository){
+    public PhoneLineService (final PhoneLineRepository phoneLineRepository){
         this.phoneLineRepository = phoneLineRepository;
+<<<<<<< HEAD
         this.userRepository = userRepository;
         this.lineTypeRepository = lineTypeRepository;
     }
@@ -93,6 +93,8 @@ public class PhoneLineService {
 
         this.phoneLineRepository.desactive(idPhoneLine);
 
+=======
+>>>>>>> parent of 5e7514a... Merge branch 'UTN-Phones-B1'
     }
 
     public List<PhoneLine> getPhoneLines(){
@@ -103,58 +105,31 @@ public class PhoneLineService {
         return phonelines;
     }
 
-    public PhoneLine getById(Integer idPhoneLine) throws PhoneLineNotExistsException, GoneException {
-        PhoneLine phoneLine = new PhoneLine();
+    public PhoneLine getPhoneLineByNumber(String number){
+        PhoneLine phoneline = new PhoneLine();
 
-        phoneLine= this.phoneLineRepository.getById(idPhoneLine);
+        phoneline = phoneLineRepository.findByPhoneNumber(number).get();
 
-        if(phoneLine==null){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
-        }
-        else {
-            if (phoneLine.getActive() == false){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new GoneException("Phone Line already has been deleted"));
-            }
-        }
-
-        return phoneLine;
+        return phoneline;
     }
 
-    public PhoneLine getByPhoneNumber(String phoneNumber) throws PhoneLineNotExistsException, GoneException {
-        PhoneLine phoneLine = new PhoneLine();
-
-        phoneLine= this.phoneLineRepository.getByPhoneNumber(phoneNumber);
-
-        if(phoneLine==null){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
-        }
-        else if (phoneLine.getActive() == false){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new GoneException("Phone Line has been deleted"));
-        }
-
-        return phoneLine;
+    public Integer getUserIdByNumber (String number){
+        return phoneLineRepository.findUserByNumber(number);
     }
 
-    public PhoneLine getPhoneLineByNumber(String number) throws PhoneLineNotExistsException, GoneException {
-
-        PhoneLine phoneLine = new PhoneLine();
-
-        phoneLine= this.phoneLineRepository.getByPhoneNumber(number);
-
-        if(phoneLine==null){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
-        }
-        else if (phoneLine.getActive() == false){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new GoneException("Phone Line has been deleted"));
-        }
-
-        return phoneLine;
+    public LineStatus getStatusByNumber(String phone_number){
+        return phoneLineRepository.findStatusByNumber(phone_number);
     }
 
+    public List<PhoneLine> getPhoneLinesByUser(Integer id_user){
+        List<PhoneLine> phonelines = new ArrayList<PhoneLine>();
+
+        phonelines = phoneLineRepository.findByUser(id_user);
+
+        return phonelines;
+    }
+
+    public void addPhoneLine(PhoneLine phoneLine) {
+        this.phoneLineRepository.save(phoneLine);
+    }
 }

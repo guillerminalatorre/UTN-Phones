@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class TariffNotExistsException extends RuntimeException {
-    public TariffNotExistsException(Integer idTariff){
-        super("No existe Tarifa con ese Id : " + idTariff);
+public class CallByLocalityToNotFound extends RuntimeException {
+    public CallByLocalityToNotFound(String phoneNumberTo){
+        super("No existe llamada realizada al numero: " + phoneNumberTo);
 
         System.out.println(this.getMessage());
     }

@@ -29,7 +29,7 @@ public class BackofficeSessionFilter extends OncePerRequestFilter {
         Session session = sessionManager.getSession(sessionToken);
 
         if (null != session) {
-            if (session.getLoggedUser().getUserType() == UserType.BACKOFFICE && session.getLoggedUser().getActive() == true) {
+            if (session.getLoggedUser().getUserType() == UserType.BACKOFFICE) {
                 filterChain.doFilter(request, response);
             }
             else {

@@ -9,11 +9,28 @@ import java.util.List;
 
 @RequestMapping
 public interface BillRepository extends JpaRepository<Bill, Integer> {
+    @Query(value = "select b.* from bills b where b.status = PAID order by b.id_bill asc", nativeQuery = true)
+    List<Bill> findAllPaids();
+
+    @Query(value = "select b.* from bills b where b.status = UNPAID order by b.id_bill asc", nativeQuery = true)
+    List<Bill> findAllUnpaid();
+
+    @Query(value = "select b.* from bills b where b.date = ?1 order by b.id_bill asc", nativeQuery = true)
+    List<Bill> findBillsFromDate(String date);
 
     @Query(value = "select b.* from bills b " +
-            "where b.datee BETWEEN DATE_ADD(concat(?1, ' 23:59:59.59'), INTERVAL -1 DAY) and concat( ?2, ' 23:59:59.59') " +
+            "where convert(DATE, b.date) > ?1 and convert(DATE, b.date) < ?2 " +
             "order by b.id_bill asc", nativeQuery = true)
     List<Bill> findBillsBtwDates(String startDate, String finalDate);
+
+    @Query(value = "select b.* from bills b " +
+            "where b.phone_line = ?1 " +
+            "order by b.id_bill asc", nativeQuery = true)
+    List<Bill> findByPhoneNumber(String phone_number);
+
+    @Query( value= "select b.phone_line from bills b" +
+            "where b.idBill = ?1", nativeQuery = true)
+    String findPhoneNumberById(Integer idBill);
 
     @Query( value= "select b.* from bills b " +
             "inner join phone_lines pl on pl.id_phone_line = b.id_phone_line " +

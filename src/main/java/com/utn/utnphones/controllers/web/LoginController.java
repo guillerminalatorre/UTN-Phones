@@ -2,14 +2,13 @@ package com.utn.utnphones.controllers.web;
 
 
 
-import com.utn.utnphones.controllers.UserController;
+import com.utn.utnphones.controllers.client.ClientController;
 import com.utn.utnphones.dto.LoginRequestDto;
 import com.utn.utnphones.exceptions.InvalidLoginException;
 import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.session.SessionManager;
-import com.utn.utnphones.utils.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class LoginController {
 
-    UserController userController;
+    ClientController clientController;
     SessionManager sessionManager;
 
     @Autowired
-    public LoginController(UserController userController, SessionManager sessionManager) {
-        this.userController = userController;
+    public LoginController(ClientController clientController, SessionManager sessionManager) {
+        this.clientController = clientController;
         this.sessionManager = sessionManager;
     }
 
@@ -33,15 +32,12 @@ public class LoginController {
 
         ResponseEntity response;
 
-            Hash hash = new Hash();
+        User u = clientController.login(loginRequestDto.getUsername(), loginRequestDto.getPassword());
 
-            String password = hash.getHash(loginRequestDto.getPassword());
+        String token = sessionManager.createSession(u);
 
-            User u = userController.login(loginRequestDto.getUsername(), password,  sessionManager);
+        response = ResponseEntity.ok().headers(createHeaders(token)).build();
 
-            String token = sessionManager.createSession(u);
-
-            response = ResponseEntity.ok().headers(createHeaders(token)).build();
 
         return response;
     }

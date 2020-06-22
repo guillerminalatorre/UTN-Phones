@@ -1,5 +1,7 @@
 package com.utn.utnphones.services;
 
+import com.utn.utnphones.exceptions.UserException;
+import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.Locality;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.models.enums.UserType;
@@ -10,7 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import org.mockito.Mock;
+import org.mockito.stubbing.OngoingStubbing;
 
+import javax.validation.Validation;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
 
@@ -21,7 +28,7 @@ public class UserServiceTest {
     private LocalityRepository localityRepository;
 
     private UserService userService;
-    private ModelsTestHelper helper;
+    private ModelsTestHelper helper = new ModelsTestHelper();
 
     @Before
     public void setUp(){
@@ -30,14 +37,21 @@ public class UserServiceTest {
     }
 
     @Test()
-    public void LoginOk(){
+    public void loginOk() throws UserException {
         User user = this.helper.getUser();
 
-        when(this.userRepository.getByUsername()).thenReturn(list);
+        when(this.userRepository.getByUsername(user.getUserName(), user.getPassword())).thenReturn(user);
 
-        List<Client> listTest = this.clientService.getAll(10,0);
+        User user1= this.userService.login(user.getUserName(), user.getPassword());
 
-        Assert.assertEquals(list.size(), listTest.size());*/
+        Assert.assertEquals(user, user1);
 
     }
+
+    @Test(expected = UserException.class)
+    public void loginFail() throws UserException {
+        this.userService.login("none", "none");
+
+    }
+
 }

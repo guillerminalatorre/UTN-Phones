@@ -10,10 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import org.mockito.Mock;
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of 616959d... Merge branch 'UTN-Phones-B1'
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
 

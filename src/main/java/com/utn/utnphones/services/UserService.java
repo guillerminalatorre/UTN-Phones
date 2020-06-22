@@ -1,10 +1,13 @@
 package com.utn.utnphones.services;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.utn.utnphones.dto.LoginRequestDto;
-import com.utn.utnphones.dto.UserDto;
+import com.utn.utnphones.dto.NewUserDto;
+import com.utn.utnphones.dto.UpdateUserDto;
 import com.utn.utnphones.exceptions.UserAlreadyExistsException;
 import com.utn.utnphones.exceptions.UserException;
 import com.utn.utnphones.exceptions.ValidationException;
@@ -15,10 +18,11 @@ import com.utn.utnphones.repositories.LocalityRepository;
 import com.utn.utnphones.repositories.UserRepository;
 import com.utn.utnphones.utils.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.client.HttpServerErrorException;
 
 
 @Service
@@ -39,7 +43,7 @@ public class UserService {
         return Optional.ofNullable(user).orElseThrow(() -> new UserException("User not exists"));
     }
 
-    public User add (UserDto user) throws UserAlreadyExistsException, ValidationException {
+    public User add (NewUserDto user) throws UserAlreadyExistsException, ValidationException {
 
         if(!user.getUserType().equals(UserType.BACKOFFICE.toString())) {
             if (!user.getUserType().equals(UserType.CLIENT.toString())) {
@@ -60,7 +64,8 @@ public class UserService {
         save.setName(user.getName());
         save.setLastname(user.getLastname());
         save.setUserName(user.getUsername());
-        save.setPassword(hash.getHash(user.getPassword()));
+        save.setIdNumber(user.getIdNumber());
+        save.setPassword(hash.getHash(user.getIdNumber()));
         save.setActive(user.getActive());
 
         if(user.getUserType().equals(UserType.BACKOFFICE) ){
@@ -70,7 +75,15 @@ public class UserService {
             save.setUserType(UserType.CLIENT);
         }
 
-        return userRepository.save(save);
+        User saved = new User();
+
+        try {
+           saved = userRepository.save(save);
+        }catch(DataIntegrityViolationException e){
+            return  (User) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Id number already exists"));
+        }
+
+        return saved;
     }
 
     public ResponseEntity<List<User>> getUsersActive(){
@@ -80,7 +93,26 @@ public class UserService {
         List<User> reply = new ArrayList<User>();
 
         for (User u: users) {
-            if(u.getActive() == true && u.getUserType() == UserType.CLIENT){
+            if(u.getActive() == true){
+                reply.add(u);
+            }
+        }
+
+        if(!reply.isEmpty()){
+            return ResponseEntity.ok(reply);
+        }else{
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    public ResponseEntity<List<User>> getUsersDisabled(){
+
+        List<User> users = this.userRepository.findAll();
+
+        List<User> reply = new ArrayList<User>();
+
+        for (User u: users) {
+            if(u.getActive() == false ){
                 reply.add(u);
             }
         }
@@ -93,8 +125,9 @@ public class UserService {
     }
 
 
+
     public User getUserById(Integer idUser) throws UserException {
-        User user = this.userRepository.findById(idUser).get();
+        User user = this.userRepository.getById(idUser);
 
         return Optional.ofNullable(user).orElseThrow(() -> new UserException("User not exists"));
     }
@@ -105,7 +138,7 @@ public class UserService {
 
     //PERMITE HACER A UN CLIENTE PARTE DEL BACKOFFICE
 
-    public User update(Integer idUser, UserDto userDto) throws ValidationException {
+    public User update(Integer idUser, UpdateUserDto userDto) throws ValidationException {
         User old = this.userRepository.findById(idUser).get();
 
         if(!userDto.getUserType().equals(UserType.BACKOFFICE.toString())){
@@ -123,8 +156,6 @@ public class UserService {
         old.setLocality(locality);
         old.setName(userDto.getName());
         old.setLastname(userDto.getLastname());
-        old.setUserName(userDto.getUsername());
-        old.setActive(userDto.getActive());
 
         if(userDto.getUserType().equals(UserType.BACKOFFICE) ){
             old.setUserType(UserType.BACKOFFICE);

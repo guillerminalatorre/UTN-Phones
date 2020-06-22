@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.enums.LineStatus;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,7 @@ public interface PhoneLineRepository extends JpaRepository<PhoneLine, String> {
 
     @Query(value = "select p.* from phone_lines p where p.id_phone_line like ?1", nativeQuery = true)
     PhoneLine getById(Integer idPhoneLine);
+
+    PhoneLine save(PhoneLine phoneLine) throws DataIntegrityViolationException;
 
 }

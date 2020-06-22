@@ -4,7 +4,7 @@ begin
 	if EXISTS (select p.* from phone_lines p where p.phone_number = new.phone_number) then
 		begin
 			signal sqlstate '10001'
-			SET MESSAGE_TEXT = 'Ya existe el numero del telefono';
+			SET MESSAGE_TEXT = 'Phone number already exists';
 		end;
 	else
 		begin
@@ -27,15 +27,15 @@ begin
 						end;
 					else
 						begin
-							signal sqlstate '10001'
-							SET MESSAGE_TEXT = 'El numero de telefono no contiene un prefijo existente';
+							signal sqlstate '10002'
+							SET MESSAGE_TEXT = 'Phone number do not contains a prefix valid';
 						end;
 					end if;
 				end;
 			else
 				begin
-					signal sqlstate '10001'
-					SET MESSAGE_TEXT = 'La cantidad de digitos del numero de telefono no corresponde al tipo';
+					signal sqlstate '10003'
+					SET MESSAGE_TEXT = 'Digits quantity is not the same as the Line Type';
 				end;
 			end if;
 		end;

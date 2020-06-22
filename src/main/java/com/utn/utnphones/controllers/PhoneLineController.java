@@ -43,8 +43,8 @@ public class PhoneLineController {
                 .toUri();
     }
 
-    public ResponseEntity<PhoneLine> changeStatus(Integer idPhoneLine, String status) throws PhoneLineNotExistsException, GoneException, ValidationException {
-        PhoneLine phoneLine = this.phoneLineService.getById(idPhoneLine);
+    public ResponseEntity<PhoneLine> changeStatus(String phoneNumber, String status) throws PhoneLineNotExistsException, GoneException, ValidationException {
+        PhoneLine phoneLine = this.phoneLineService.getByPhoneNumber(phoneNumber);
 
         if(phoneLine == null) {
             return (ResponseEntity<PhoneLine>) Optional.ofNullable(null).orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));

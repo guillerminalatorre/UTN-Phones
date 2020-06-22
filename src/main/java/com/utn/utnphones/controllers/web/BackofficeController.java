@@ -2,9 +2,10 @@ package com.utn.utnphones.controllers.web;
 
 import com.utn.utnphones.controllers.*;
 import com.utn.utnphones.dto.LoginRequestDto;
+import com.utn.utnphones.dto.UpdateUserDto;
 import com.utn.utnphones.exceptions.*;
 import com.utn.utnphones.dto.PhoneLineDto;
-import com.utn.utnphones.dto.UserDto;
+import com.utn.utnphones.dto.NewUserDto;
 import com.utn.utnphones.models.*;
 import com.utn.utnphones.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,12 @@ public class BackofficeController {
         return this.userController.getUsersActive();
     }
 
+    @GetMapping("/users/disabled")
+    public ResponseEntity<List<User>> getUsersDisabled(@RequestHeader("Authorization") String sessionToken) throws UserException {
+        getCurrentUser(sessionToken);
+
+        return this.userController.getUsersDisabled();
+    }
     @GetMapping("/users/{idUser}")
     public ResponseEntity<User> getUserById (@RequestHeader("Authorization") String sessionToken,
                                              @PathVariable(value = "idUser", required = true)Integer idUser) throws UserException {
@@ -70,8 +77,8 @@ public class BackofficeController {
         return this.userController.getUserById(idUser);
     }
 
-    @PostMapping("/users/add")
-    public ResponseEntity addUser(@RequestHeader("Authorization") String sessionToken, @RequestBody UserDto userDto) throws UserException, UserAlreadyExistsException, ValidationException {
+    @PostMapping("/users")
+    public ResponseEntity addUser(@RequestHeader("Authorization") String sessionToken, @RequestBody NewUserDto userDto) throws UserException, UserAlreadyExistsException, ValidationException {
         getCurrentUser(sessionToken);
 
         return this.userController.add(userDto);
@@ -87,13 +94,13 @@ public class BackofficeController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/users/{idClient}")
+    @PutMapping("/users/{idUser}")
     public ResponseEntity<User> updateClient(@RequestHeader("Authorization") String sessionToken,
-                                             @PathVariable(value = "idClient", required = true) Integer idClient,
-                                             @RequestBody UserDto userDto) throws ValidationException, UserException {
+                                             @PathVariable(value = "idUser", required = true) Integer idUser,
+                                             @RequestBody UpdateUserDto updateUserDto) throws ValidationException, UserException {
         getCurrentUser(sessionToken);
 
-        return this.userController.update(idClient, userDto);
+        return this.userController.update(idUser, updateUserDto);
     }
 
     /**ALTA, BAJA Y SUSPENCION DE LINEAS*/
@@ -113,7 +120,7 @@ public class BackofficeController {
         return this.phoneLineController.getPhoneLines();
     }
 
-    @PostMapping("/phone-lines/add")
+    @PostMapping("/phone-lines")
     public ResponseEntity addPhoneLine(@RequestHeader("Authorization") String sessionToken,
                                        @RequestBody PhoneLineDto phoneLine) throws UserException, UserAlreadyExistsException, ValidationException, com.utn.utnphones.exceptions.ValidationException {
         getCurrentUser(sessionToken);
@@ -121,13 +128,13 @@ public class BackofficeController {
         return this.phoneLineController.add(phoneLine);
     }
 
-    @PutMapping("/phone-lines/{idPhoneLine}/status={status}")
+    @PutMapping("/phone-lines/{phoneNumber}/status={status}")
     public ResponseEntity<PhoneLine> disablePhoneLine (@RequestHeader("Authorization") String sessionToken,
-                                                      @PathVariable(value = "idPhoneLine", required = true) Integer idPhoneLine,
+                                                      @PathVariable(value = "phoneNumber", required = true) String phoneNumber,
                                                        @PathVariable(value = "Status", required = true) String status) throws ValidationException, UserException, PhoneLineNotExistsException, GoneException {
         getCurrentUser(sessionToken);
 
-        return this.phoneLineController.changeStatus(idPhoneLine, status);
+        return this.phoneLineController.changeStatus(phoneNumber, status);
     }
 
     @DeleteMapping("/phone-lines/{idPhoneLine}")
@@ -147,7 +154,7 @@ public class BackofficeController {
         return this.tariffController.getTariffs();
     }
 
-    @GetMapping("/tariffs/from={isLocalityFrom}/to={idLocalityTo}")
+    @GetMapping("/tariffs/from={idLocalityFrom}/to={idLocalityTo}")
     public ResponseEntity<Tariff> getTariff(@RequestHeader("Authorization") String sessionToken,
                                                   @PathVariable(value = "idLocalityFrom", required = true) Integer idLocalityFrom,
                                                   @PathVariable(value = "idLocalityTo", required = true) Integer idLocalityTo) throws UserException, TariffNotExistsException {
@@ -203,7 +210,7 @@ public class BackofficeController {
 
     }
 
-    @GetMapping("/bills/user/{idUser}between-dates/{startDate}/{finalDate}")
+    @GetMapping("/bills/user/{idUser}/between-dates/{startDate}/{finalDate}")
     public ResponseEntity<List<Bill>> getBillsBtwDatesByUser(@RequestHeader("Authorization") String sessionToken,
                                                        @PathVariable(value = "startDate", required = true) String startDate,
                                                        @PathVariable(value = "finalDate", required = true) String finalDate,

@@ -3,7 +3,7 @@ package com.utn.utnphones.dto;
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class UpdateUserDto {
 
     private Integer idLocality;
 
@@ -11,11 +11,6 @@ public class UserDto {
 
     private String lastname;
 
-    private String username;
-
-    private String password;
-
     private String userType;
-
-    private Boolean active;
 }
+

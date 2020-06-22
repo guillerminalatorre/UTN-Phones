@@ -16,6 +16,7 @@ import com.utn.utnphones.repositories.LineTypeRepository;
 import com.utn.utnphones.repositories.PhoneLineRepository;
 import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -70,7 +71,15 @@ public class PhoneLineService {
         saved.setPhoneNumber(phoneLineDto.getPhoneNumber());
         saved.setUser(user);
 
-        return this.phoneLineRepository.save(saved);
+        PhoneLine save = new PhoneLine();
+
+        try {
+            save = phoneLineRepository.save(save);
+        }catch(DataIntegrityViolationException e){
+            return  (PhoneLine) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Phone number already exists"));
+        }
+
+        return save;
     }
 
     public PhoneLine update(PhoneLine phoneLine) throws PhoneLineNotExistsException {
@@ -91,6 +100,23 @@ public class PhoneLineService {
         PhoneLine phoneLine = new PhoneLine();
 
         phoneLine= this.phoneLineRepository.getById(idPhoneLine);
+
+        if(phoneLine==null){
+            return (PhoneLine) Optional.ofNullable(null)
+                    .orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
+        }
+        else if (phoneLine.getActive() == false){
+            return (PhoneLine) Optional.ofNullable(null)
+                    .orElseThrow(() -> new GoneException("Phone Line has been deleted"));
+        }
+
+        return phoneLine;
+    }
+
+    public PhoneLine getByPhoneNumber(String phoneNumber) throws PhoneLineNotExistsException, GoneException {
+        PhoneLine phoneLine = new PhoneLine();
+
+        phoneLine= this.phoneLineRepository.getByPhoneNumber(phoneNumber);
 
         if(phoneLine==null){
             return (PhoneLine) Optional.ofNullable(null)

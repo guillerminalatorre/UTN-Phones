@@ -1,5 +1,6 @@
 package com.utn.utnphones.services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +11,23 @@ import com.utn.utnphones.models.Locality;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.repositories.CallRepository;
 import com.utn.utnphones.repositories.UserRepository;
+import org.hibernate.HibernateError;
+import org.hibernate.HibernateException;
+import org.hibernate.JDBCException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.exception.DataException;
+import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.hibernate5.HibernateJdbcException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.PersistenceException;
+import javax.validation.ValidationException;
 
 @Service
 public class CallService {
@@ -88,7 +102,10 @@ public class CallService {
     }
 
     public Call addCall(Call call) {
-        Call savedCall =  callRepository.save(call);
+        Call savedCall = new Call();
+
+        savedCall = callRepository.save(call);
+
         return savedCall;
     }
 

@@ -45,7 +45,7 @@ public class ClientController {
 
     }
 
-    @GetMapping("/info")
+    @PutMapping("/info")
     public ResponseEntity<User> update(@RequestHeader("Authorization") String sessionToken,
                                        @RequestBody LoginRequestDto client) throws UserException, ValidationException{
         User currentUser = getCurrentUser(sessionToken);

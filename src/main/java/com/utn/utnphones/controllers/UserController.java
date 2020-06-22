@@ -1,7 +1,8 @@
 package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.dto.LoginRequestDto;
-import com.utn.utnphones.dto.UserDto;
+import com.utn.utnphones.dto.UpdateUserDto;
+import com.utn.utnphones.dto.NewUserDto;
 import com.utn.utnphones.exceptions.*;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.services.UserService;
@@ -42,7 +43,7 @@ public class UserController {
         }
     }
 
-    public ResponseEntity<User> update(Integer idUser, UserDto user) throws ValidationException, UserException {
+    public ResponseEntity<User> update(Integer idUser, UpdateUserDto user) throws ValidationException, UserException {
 
         return ResponseEntity.ok(this.userService.update( idUser , user));
     }
@@ -52,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.update(idClient, user));
     }
 
-    public ResponseEntity<User> add(UserDto userDto) throws UserAlreadyExistsException, ValidationException {
+    public ResponseEntity<User> add(NewUserDto userDto) throws UserAlreadyExistsException, ValidationException {
         return ResponseEntity.created(getLocation(this.userService.add(userDto))).build();
     }
 
@@ -68,6 +69,11 @@ public class UserController {
     public ResponseEntity<List<User>> getUsersActive(){
 
         return this.userService.getUsersActive();
+    }
+
+    public ResponseEntity<List<User>> getUsersDisabled(){
+
+        return this.userService.getUsersDisabled();
     }
 
     private URI getLocation(User user) {

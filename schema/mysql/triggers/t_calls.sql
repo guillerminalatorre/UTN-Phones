@@ -1,6 +1,12 @@
 DELIMITER//
 CREATE TRIGGER TBI_calls before insert on calls for each row
 begin
+	if new.datee > now() then
+		begin
+			signal sqlstate '10004'
+			SET MESSAGE_TEXT = 'Date is not valid';
+		end;
+	end if;
 
 	if EXISTS (select p.phone_number from phone_lines p where p.phone_number = new.phone_number_from) and
 			(select p.phone_number from phone_lines p where p.phone_number = new.phone_number_to) then
@@ -17,6 +23,7 @@ begin
 
 			if @id_tariff is not null then
 				begin
+
 					declare total_cost float;
 
 					declare total_price float;
@@ -47,16 +54,17 @@ begin
 				end;
 			else
 				begin
-					signal sqlstate '10001'
-					SET MESSAGE_TEXT = 'Los numeros de telefono no contienen una tarifa existente';
+					signal sqlstate '10005'
+					SET MESSAGE_TEXT = 'Tariff do not exists for this call';
 				end;
 			end if;
 		end;
 	else
 		begin
-			signal sqlstate '10001'
-			SET MESSAGE_TEXT = 'Uno de los numeros ingresados no corresponden a clientes de la compañia';
+			signal sqlstate '10006'
+			SET MESSAGE_TEXT = 'One of the numbers inserted do not exists';
 		end;
 	end if;
 end;
+
 delimiter;

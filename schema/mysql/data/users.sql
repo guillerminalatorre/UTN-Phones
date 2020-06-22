@@ -12,3 +12,4 @@ INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) 
 INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "25608556" , "Juarez" , "Sol" , "3029" , "CLIENT" , 117);
 INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "12210954" , "Lopez" , "Giuliano " , "9157" , "CLIENT" , 38);
 INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "21541146" , "Perez" , "Santiago" , "4913" , "CLIENT" , 8);
+INSERT INTO users (id_number, lastname, name, password, user_type, id_locality) values ( "19656093" , "Loto" , "Juan" , "1234" , "CLIENT" , 8);

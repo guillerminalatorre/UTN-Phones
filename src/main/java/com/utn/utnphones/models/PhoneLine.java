@@ -24,7 +24,7 @@ public class PhoneLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPhoneLine;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -45,4 +45,7 @@ public class PhoneLine {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status" ,columnDefinition = "varchar(50) default 'enabled'")
     private LineStatus status = LineStatus.ENABLED;
+
+    @Column(name = "active", columnDefinition = "bool default true")
+    private Boolean active;
 }

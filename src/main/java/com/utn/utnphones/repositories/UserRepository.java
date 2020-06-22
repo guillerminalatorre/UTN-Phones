@@ -2,6 +2,7 @@ package com.utn.utnphones.repositories;
 
 
 import com.utn.utnphones.models.User;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,9 +14,6 @@ import javax.transaction.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query(value = "select u.password from users u where u.id_user = ?1", nativeQuery = true)
-    String findPassById(Integer idUser);
-
     @Query(value = "select u.* from users u where u.id_user = ?1", nativeQuery = true)
     User getById(Integer idUser);
 
@@ -25,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(value = "update users u set u.active = false where u.id_user = ?1", nativeQuery = true)
-    Integer delete(Integer idUser);
+    void delete(Integer idUser);
 
-
+    User save(User user) throws DataIntegrityViolationException;
 }

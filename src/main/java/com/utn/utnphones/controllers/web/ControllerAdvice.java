@@ -2,9 +2,7 @@ package com.utn.utnphones.controllers.web;
 
 
 import com.utn.utnphones.dto.ErrorResponseDto;
-import com.utn.utnphones.exceptions.InvalidLoginException;
-import com.utn.utnphones.exceptions.UserException;
-import com.utn.utnphones.exceptions.ValidationException;
+import com.utn.utnphones.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,7 +28,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserException.class)
-    public ErrorResponseDto handleUserNotExists(UserException exc) {
+    public ErrorResponseDto handleUserException(UserException exc) {
         return new ErrorResponseDto(3, exc.getMessage());
     }
 
@@ -40,5 +38,22 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return new ErrorResponseDto(4, "Not valid dates");
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PhoneLineNotExistsException.class)
+    public ErrorResponseDto handlePhoneLineException(PhoneLineNotExistsException exc) {
+        return new ErrorResponseDto(5, exc.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.GONE)
+    @ExceptionHandler(GoneException.class)
+    public ErrorResponseDto handleGoneException(GoneException exc) {
+        return new ErrorResponseDto(6, exc.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(TariffNotExistsException.class)
+    public ErrorResponseDto handleTariffNotExistsException(TariffNotExistsException exc) {
+        return new ErrorResponseDto(7, exc.getMessage());
+    }
 
 }

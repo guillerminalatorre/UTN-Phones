@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class TariffServiceTest {
+public class TariffServiceTest {/*
 
     private TariffService tariffService;
 
@@ -43,8 +43,8 @@ public class TariffServiceTest {
         assertEquals(tariff.getCostPrice(), returnedTariff.getCostPrice());
         assertEquals(tariff.getPrice(), returnedTariff.getPrice());
 
-        verify(tariffRepository, times(1)).getById(1);*/
+        verify(tariffRepository, times(1)).getById(1);
     }
 
-
+*/
 }

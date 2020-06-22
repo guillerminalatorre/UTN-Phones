@@ -24,6 +24,6 @@ public class LineType {
     private String name;
 
     @NotNull
-    @Column(name = "number_of_digits")
+    @Column(name = "digits_qty")
     private Integer digitsQty;
 }

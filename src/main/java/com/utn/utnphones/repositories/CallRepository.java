@@ -2,19 +2,13 @@ package com.utn.utnphones.repositories;
 
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.Locality;
-import org.hibernate.HibernateError;
-import org.hibernate.HibernateException;
-import org.hibernate.JDBCException;
-import org.hibernate.engine.jdbc.env.spi.SQLStateType;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-import org.hibernate.exception.DataException;
-import org.hibernate.exception.GenericJDBCException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository

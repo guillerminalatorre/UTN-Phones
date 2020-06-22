@@ -8,6 +8,7 @@ import com.utn.utnphones.exceptions.GoneException;
 import com.utn.utnphones.exceptions.PhoneLineNotExistsException;
 import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.exceptions.UserException;
+import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
@@ -17,6 +18,7 @@ import com.utn.utnphones.repositories.PhoneLineRepository;
 import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -74,9 +76,12 @@ public class PhoneLineService {
         PhoneLine save = new PhoneLine();
 
         try {
-            save = phoneLineRepository.save(save);
+            save = phoneLineRepository.save(saved);
         }catch(DataIntegrityViolationException e){
             return  (PhoneLine) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Phone number already exists"));
+        }catch(Exception e){
+            return (PhoneLine) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Error. Check: Phone number do not contains a prefix valid || " +
+                    "Digits quantity is not the same as Line Type "));
         }
 
         return save;

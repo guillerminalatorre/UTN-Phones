@@ -30,9 +30,17 @@ public class PhoneLineController {
         this.userService = userService;
     }
 
-    public ResponseEntity add(@RequestBody PhoneLineDto phoneLine) throws ValidationException, UserException {
+    public ResponseEntity<PhoneLine> add(@RequestBody PhoneLineDto phoneLine) throws ValidationException, UserException {
+        PhoneLine saved = new PhoneLine();
 
-        return ResponseEntity.created(getLocation(this.phoneLineService.add(phoneLine))).build();
+        try{
+            saved = this.phoneLineService.add(phoneLine);
+
+            return ResponseEntity.created(getLocation(saved)).build();
+        }catch(ValidationException e){
+            return (ResponseEntity<PhoneLine>) Optional.ofNullable(null).orElseThrow(() -> new ValidationException(e.getMessage()));
+        }
+
     }
 
     private URI getLocation(PhoneLine phoneLine) {

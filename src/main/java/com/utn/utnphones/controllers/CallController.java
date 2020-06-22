@@ -1,6 +1,7 @@
 package com.utn.utnphones.controllers;
 
 import com.utn.utnphones.exceptions.UserException;
+import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.Locality;
 import com.utn.utnphones.services.CallService;
@@ -40,7 +41,7 @@ public class CallController {
     }
 
 
-    public Call addCall(Call call){
+    public ResponseEntity<Call> addCall(Call call) throws ValidationException {
         return this.callService.addCall(call);
     }
 

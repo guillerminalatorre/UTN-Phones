@@ -121,7 +121,7 @@ public class BackofficeController {
     }
 
     @PostMapping("/phone-lines")
-    public ResponseEntity addPhoneLine(@RequestHeader("Authorization") String sessionToken,
+    public ResponseEntity<PhoneLine> addPhoneLine(@RequestHeader("Authorization") String sessionToken,
                                        @RequestBody PhoneLineDto phoneLine) throws UserException, UserAlreadyExistsException, ValidationException, com.utn.utnphones.exceptions.ValidationException {
         getCurrentUser(sessionToken);
 

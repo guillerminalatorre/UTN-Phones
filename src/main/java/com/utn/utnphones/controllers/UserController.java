@@ -43,17 +43,17 @@ public class UserController {
         }
     }
 
-    public ResponseEntity<User> update(Integer idUser, UpdateUserDto user) throws ValidationException, UserException {
+    public ResponseEntity<User> update(Integer idUser, UpdateUserDto user) throws ValidationException{
 
         return ResponseEntity.ok(this.userService.update( idUser , user));
     }
 
-    public ResponseEntity<User> update(Integer idClient, LoginRequestDto user) throws ValidationException, UserException{
+    public ResponseEntity<User> update(Integer idClient, LoginRequestDto user) throws ValidationException{
 
         return ResponseEntity.ok(this.userService.update(idClient, user));
     }
 
-    public ResponseEntity<User> add(NewUserDto userDto) throws UserAlreadyExistsException, ValidationException {
+    public ResponseEntity<User> add(NewUserDto userDto) throws ValidationException {
         return ResponseEntity.created(getLocation(this.userService.add(userDto))).build();
     }
 

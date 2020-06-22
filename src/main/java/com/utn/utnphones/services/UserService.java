@@ -43,7 +43,7 @@ public class UserService {
         return Optional.ofNullable(user).orElseThrow(() -> new UserException("User not exists"));
     }
 
-    public User add (NewUserDto user) throws UserAlreadyExistsException, ValidationException {
+    public User add (NewUserDto user) throws ValidationException{
 
         if(!user.getUserType().equals(UserType.BACKOFFICE.toString())) {
             if (!user.getUserType().equals(UserType.CLIENT.toString())) {

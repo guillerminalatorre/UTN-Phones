@@ -28,5 +28,6 @@ public class Province {
 
     @OneToMany(mappedBy = "province",
             cascade = CascadeType.ALL)
+    @JsonBackReference
     List<Locality> localities = new ArrayList<>();
 }

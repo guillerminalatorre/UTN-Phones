@@ -1,7 +1,5 @@
 package com.utn.utnphones.services;
 
-import com.utn.utnphones.exceptions.UserException;
-import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.models.Locality;
 import com.utn.utnphones.models.User;
 import com.utn.utnphones.models.enums.UserType;
@@ -12,6 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import org.mockito.Mock;
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 616959d... Merge branch 'UTN-Phones-B1'
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
 
@@ -22,7 +24,7 @@ public class UserServiceTest {
     private LocalityRepository localityRepository;
 
     private UserService userService;
-    private ModelsTestHelper helper = new ModelsTestHelper();
+    private ModelsTestHelper helper;
 
     @Before
     public void setUp(){
@@ -31,21 +33,14 @@ public class UserServiceTest {
     }
 
     @Test()
-    public void loginOk() throws UserException {
+    public void LoginOk(){
         User user = this.helper.getUser();
 
-        when(this.userRepository.getByUsername(user.getUserName(), user.getPassword())).thenReturn(user);
+        when(this.userRepository.getByUsername()).thenReturn(list);
 
-        User user1= this.userService.login(user.getUserName(), user.getPassword());
+        List<Client> listTest = this.clientService.getAll(10,0);
 
-        Assert.assertEquals(user, user1);
-
-    }
-
-    @Test(expected = UserException.class)
-    public void loginFail() throws UserException {
-        this.userService.login("none", "none");
+        Assert.assertEquals(list.size(), listTest.size());*/
 
     }
-
 }

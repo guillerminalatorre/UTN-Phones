@@ -24,7 +24,7 @@ public interface PhoneLineRepository extends JpaRepository<PhoneLine, String> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(value = "update phone_lines set active= false where id_phone_line = ?1", nativeQuery = true)
-    void desactive(Integer phoneLine);
+    Integer desactive(Integer phoneLine);
 
     PhoneLine save(PhoneLine phoneLine) throws DataIntegrityViolationException;
 

@@ -96,7 +96,7 @@ public class PhoneLineController {
     }
 
     public ResponseEntity<PhoneLine> getPhoneLineByNumber(String number) throws PhoneLineNotExistsException, GoneException {
-        return ResponseEntity.ok(this.phoneLineService.getPhoneLineByNumber(number));
+        return ResponseEntity.ok(this.phoneLineService.getByPhoneNumber(number));
     }
 
     public ResponseEntity<List<PhoneLine>> getPhoneLines(){

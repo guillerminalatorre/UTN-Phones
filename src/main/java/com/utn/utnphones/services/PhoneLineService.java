@@ -8,7 +8,6 @@ import com.utn.utnphones.exceptions.GoneException;
 import com.utn.utnphones.exceptions.PhoneLineNotExistsException;
 import com.utn.utnphones.exceptions.ValidationException;
 import com.utn.utnphones.exceptions.UserException;
-import com.utn.utnphones.models.Call;
 import com.utn.utnphones.models.LineType;
 import com.utn.utnphones.models.PhoneLine;
 import com.utn.utnphones.models.User;
@@ -18,7 +17,6 @@ import com.utn.utnphones.repositories.PhoneLineRepository;
 import com.utn.utnphones.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -87,15 +85,15 @@ public class PhoneLineService {
         return save;
     }
 
-    public PhoneLine update(PhoneLine phoneLine) throws PhoneLineNotExistsException {
+    public PhoneLine update(PhoneLine phoneLine){
 
         return this.phoneLineRepository.save(phoneLine);
 
     }
 
-    public void delete(Integer idPhoneLine) throws PhoneLineNotExistsException {
+    public Integer delete(Integer idPhoneLine){
 
-        this.phoneLineRepository.desactive(idPhoneLine);
+        return this.phoneLineRepository.desactive(idPhoneLine);
 
     }
 
@@ -130,24 +128,6 @@ public class PhoneLineService {
         PhoneLine phoneLine = new PhoneLine();
 
         phoneLine= this.phoneLineRepository.getByPhoneNumber(phoneNumber);
-
-        if(phoneLine==null){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
-        }
-        else if (phoneLine.getActive() == false){
-            return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new GoneException("Phone Line has been deleted"));
-        }
-
-        return phoneLine;
-    }
-
-    public PhoneLine getPhoneLineByNumber(String number) throws PhoneLineNotExistsException, GoneException {
-
-        PhoneLine phoneLine = new PhoneLine();
-
-        phoneLine= this.phoneLineRepository.getByPhoneNumber(number);
 
         if(phoneLine==null){
             return (PhoneLine) Optional.ofNullable(null)

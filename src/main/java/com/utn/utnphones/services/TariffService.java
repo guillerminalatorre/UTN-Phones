@@ -21,15 +21,15 @@ public class TariffService {
         this.tariffRepository = tariffRepository;
     }
 
-    public List<Tariff> getTariffs(){
+    public ResponseEntity<List<Tariff>> getTariffs(){
         List<Tariff> tariffs = new ArrayList<Tariff>();
 
         tariffs = tariffRepository.findAll();
 
         if(!tariffs.isEmpty()){
-            return (List<Tariff>) ResponseEntity.ok(tariffs);
+            return ResponseEntity.ok(tariffs);
         }else{
-            return (List<Tariff>) ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
 

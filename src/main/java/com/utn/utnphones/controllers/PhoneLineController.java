@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class PhoneLineController {
         if(!status.equals("disable")){
                 if(!status.equals("enable")){
                         if(!status.equals("suspend")){
-                            return (ResponseEntity<PhoneLine>) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Path \"status\" is not valid"));
+                            return (ResponseEntity<PhoneLine>) Optional.ofNullable(null).orElseThrow(() -> new ValidationException("Status is not valid"));
                         }else{
                             phoneLine.setStatus(LineStatus.SUSPENDED);
                         }
@@ -76,13 +77,22 @@ public class PhoneLineController {
     }
 
 
-    public ResponseEntity<PhoneLine> delete(Integer idPhoneLine) throws PhoneLineNotExistsException, GoneException {
+    public ResponseEntity delete(Integer idPhoneLine) throws PhoneLineNotExistsException, GoneException {
+        PhoneLine phoneLine = new PhoneLine();
 
-        PhoneLine phoneLine = this.phoneLineService.getById(idPhoneLine);
+        try {
+            phoneLine = this.phoneLineService.getById(idPhoneLine);
+        }
+        catch(PhoneLineNotExistsException e){
+            return (ResponseEntity) Optional.ofNullable(null)
+                    .orElseThrow(() -> new PhoneLineNotExistsException(e.getMessage()));
+        }catch(GoneException e){
+            return (ResponseEntity) Optional.ofNullable(null)
+                    .orElseThrow(() -> new GoneException(e.getMessage()));
+        }
+        this.phoneLineService.delete(phoneLine.getIdPhoneLine());
 
-        phoneLine.setActive(false);
-
-        return ResponseEntity.ok(this.phoneLineService.update(phoneLine));
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<PhoneLine> getPhoneLineByNumber(String number) throws PhoneLineNotExistsException, GoneException {

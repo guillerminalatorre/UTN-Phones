@@ -11,7 +11,7 @@ import java.util.List;
 public interface BillRepository extends JpaRepository<Bill, Integer> {
 
     @Query(value = "select b.* from bills b " +
-            "where convert(DATE, b.date) > ?1 and convert(DATE, b.date) < ?2 " +
+            "where b.datee BETWEEN DATE_ADD(concat(?1, ' 23:59:59.59'), INTERVAL -1 DAY) and concat( ?2, ' 23:59:59.59') " +
             "order by b.id_bill asc", nativeQuery = true)
     List<Bill> findBillsBtwDates(String startDate, String finalDate);
 

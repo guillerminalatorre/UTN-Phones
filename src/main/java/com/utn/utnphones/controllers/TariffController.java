@@ -19,7 +19,7 @@ public class TariffController {
     }
 
     public ResponseEntity<List<Tariff>> getTariffs(){
-        return ResponseEntity.ok(tariffService.getTariffs());
+        return tariffService.getTariffs();
     }
 
     public ResponseEntity<Tariff> getTariffByLocalityFromTo(Integer idLocalityFrom, Integer idLocalityTo) throws TariffNotExistsException {

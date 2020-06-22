@@ -93,6 +93,12 @@ public class PhoneLineService {
 
     }
 
+    public void delete(Integer idPhoneLine) throws PhoneLineNotExistsException {
+
+        this.phoneLineRepository.desactive(idPhoneLine);
+
+    }
+
     public List<PhoneLine> getPhoneLines(){
         List<PhoneLine> phonelines = new ArrayList<PhoneLine>();
 
@@ -110,9 +116,11 @@ public class PhoneLineService {
             return (PhoneLine) Optional.ofNullable(null)
                     .orElseThrow(() -> new PhoneLineNotExistsException("Phone Line do not exists"));
         }
-        else if (phoneLine.getActive() == false){
+        else {
+            if (phoneLine.getActive() == false){
             return (PhoneLine) Optional.ofNullable(null)
-                    .orElseThrow(() -> new GoneException("Phone Line has been deleted"));
+                    .orElseThrow(() -> new GoneException("Phone Line already has been deleted"));
+            }
         }
 
         return phoneLine;

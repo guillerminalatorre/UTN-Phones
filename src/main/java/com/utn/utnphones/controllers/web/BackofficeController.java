@@ -131,14 +131,14 @@ public class BackofficeController {
     @PutMapping("/phone-lines/{phoneNumber}/status={status}")
     public ResponseEntity<PhoneLine> disablePhoneLine (@RequestHeader("Authorization") String sessionToken,
                                                       @PathVariable(value = "phoneNumber", required = true) String phoneNumber,
-                                                       @PathVariable(value = "Status", required = true) String status) throws ValidationException, UserException, PhoneLineNotExistsException, GoneException {
+                                                       @PathVariable(value = "status", required = true) String status) throws ValidationException, UserException, PhoneLineNotExistsException, GoneException {
         getCurrentUser(sessionToken);
 
         return this.phoneLineController.changeStatus(phoneNumber, status);
     }
 
     @DeleteMapping("/phone-lines/{idPhoneLine}")
-    public ResponseEntity<PhoneLine> deletePhoneLine (@RequestHeader("Authorization") String sessionToken,
+    public ResponseEntity deletePhoneLine (@RequestHeader("Authorization") String sessionToken,
                                                       @PathVariable(value = "idPhoneLine", required = true) Integer idPhoneLine) throws ValidationException, UserException, PhoneLineNotExistsException, GoneException {
         getCurrentUser(sessionToken);
 

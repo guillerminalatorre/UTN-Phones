@@ -33,6 +33,6 @@ CALLS{
         calls (phone_number_from asc) USING BTREE;
 
      Optimiza más de una Query:     List<Call> getCallsFromByUser(Integer idUser);
-     
+
 }
 

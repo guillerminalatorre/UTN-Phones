@@ -1,0 +1,130 @@
+use utnphones;
+
+db.bills.insertOne(
+  {
+    id : 1,
+    name : "Buenos Aires"
+  })
+
+db.localities.InsertOne({
+    id : 1,
+    name : "12 de Octubre",
+    prefix : "223",
+    province" : {
+      name : "Buenos Aires"
+    }
+})
+
+db.users.InsertOne({
+    id : 1,
+    name : "Guillermina",
+    lastname : "Latorre",
+    userName : "guille",
+    password : "8050",
+    idNumber : "1234567891",
+    userType : {
+      name : "ENABLED"
+    },
+    active : true
+})
+
+db.phoneLines.InsertOne({
+    id: 1,
+    phoneNumber : "2317997867",
+    status : "DISABLED",
+    active : true
+})
+
+db.bills.InsertOne({
+    id : 65,
+    callsQty : 0,
+    costPrice : 0.0,
+    totalPrice : 0.0,
+    date : "2020-06-07T04:45:09.000+0000",
+    dueDate : "2020-06-22",
+    status : "PAID"
+})
+
+db.tariffs.InsertOne({
+    id : 1,
+    localityFrom : {
+      id : 1,
+      province : {
+        idProvince : 1,
+        name : "Buenos aires"
+      },
+      name : "12 de octubre",
+      prefix : "2317"
+    },
+    localityTo : {
+       idLocality : 1,
+       province : {
+         idProvince : 1,
+         name: "Buenos aires"
+      },
+      name : "12 de octubre",
+      prefix : "2317"
+    },
+    costPrice : 2.3,
+    price : 3.45
+})
+
+db.calls.InsertOne({
+    idCall : 91,
+    tariff : {
+      idTariff : 186,
+      localityFro : {
+        idLocality : 1,
+        province : {
+          idProvince : 1,
+          name : "Buenos aires"
+        },
+        name : "12 de octubre",
+        prefix : "2317"
+      },
+      localityTo : {
+        idLocality : 186,
+        province : {
+          idProvince : 8,
+          name : "Formosa"
+        },
+        name : "Clorinda",
+        prefix : "3718"
+      },
+      costPrice : 1.2,
+      price : 1.8
+    },
+    bill : {
+      idBill : 1,
+      callsQty : 30,
+      costPrice : 527.84,
+      totalPrice : 791.89,
+      date : "2020-06-07T04:45:04.000+0000",
+      dueDate : "2020-06-22",
+      status : "UNPAID"
+    },
+    phoneNumberFrom : "2317997867",
+    phoneNumberTo : "3718708539",
+    localityFrom : {
+      idLocality : 1,
+      province : {
+        idProvince : 1,
+        name : "Buenos aires"
+      },
+      name : "12 de octubre",
+      prefix : "2317"
+    },
+    localityTo : {
+      idLocality : 186,
+      province : {
+        idProvince : 8,
+        name : "Formosa"
+      },
+      name : "Clorinda",
+      prefix : "3718"
+    },
+    datee : "2015-05-18 03:29:07",
+    duration : "00:08:39",
+    costPrice : 10.06,
+    totalPrice : 15.1
+})

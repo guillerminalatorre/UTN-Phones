@@ -9,10 +9,19 @@
 #jdbc:h2:mem:testdb
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/utnphones #jdbc:mysql://db4free.net:3306/latorrerondinara
+    url: jdbc:mysql://localhost:3306/utnphones
     username: root
-    password:
+    password: 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
+#spring:
+#  datasource:
+#    url: jdbc:mysql://db4free.net:3306/latorrerondinara #jdbc:mysql://localhost:3306/utnphones #
+#    username: utnphones
+#    password: tusi2020
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      ddl-auto: update

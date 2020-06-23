@@ -25,13 +25,11 @@ public class Call {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCall;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_tariff", referencedColumnName="id_tariff", foreignKey = @ForeignKey(name = "fk_id_tariff"))
     private Tariff tariff;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_bill", referencedColumnName="id_bill", foreignKey = @ForeignKey(name = "fk_id_bill"))
     private Bill bill;
 

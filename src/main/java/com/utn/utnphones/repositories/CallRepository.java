@@ -31,8 +31,8 @@ public interface CallRepository extends JpaRepository<Call, Integer> {
             "from calls c " +
             "inner join phone_lines pl on c.phone_number_from = pl.phone_number " +
             "where pl.id_user = ?1 " +
-            "group by c.phone_number_from asc " +
-            "order by c.phone_number_from asc;", nativeQuery = true)
+            "group by c.datee asc " +
+            "order by c.datee asc;", nativeQuery = true)
     List<Call> getCallsFromByUser(Integer idUser);
 
     @Query(value = "select distinct l.* " +

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">utn-phones-api</a> &gt; <a href="index.source.html" class="el_package">com.utn.utnphones.services</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.utn.utnphones.services;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.utn.utnphones.dto.LoginRequestDto;
+import com.utn.utnphones.dto.NewUserDto;
+import com.utn.utnphones.dto.UpdateUserDto;
+import com.utn.utnphones.exceptions.UserAlreadyExistsException;
+import com.utn.utnphones.exceptions.UserException;
+import com.utn.utnphones.exceptions.ValidationException;
+import com.utn.utnphones.models.Locality;
+import com.utn.utnphones.models.User;
+import com.utn.utnphones.models.enums.UserType;
+import com.utn.utnphones.repositories.LocalityRepository;
+import com.utn.utnphones.repositories.UserRepository;
+import com.utn.utnphones.utils.Hash;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
+
+
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    private final LocalityRepository localityRepository;
+
+    @Autowired
+<span class="fc" id="L34">    public UserService(final UserRepository userRepository, LocalityRepository localityRepository){</span>
+<span class="fc" id="L35">        this.userRepository = userRepository;</span>
+<span class="fc" id="L36">        this.localityRepository = localityRepository;</span>
+<span class="fc" id="L37">    }</span>
+
+    public User login(String username, String password) throws UserException {
+
+<span class="fc" id="L41">        User user = userRepository.getByUsername(username, password);</span>
+
+<span class="fc" id="L43">        return Optional.ofNullable(user).orElseThrow(() -&gt; new UserException(&quot;User not exists&quot;));</span>
+    }
+
+    public User add (NewUserDto user) throws ValidationException{
+
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if(!user.getUserType().equals(UserType.BACKOFFICE.toString())) {</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">            if (!user.getUserType().equals(UserType.CLIENT.toString())) {</span>
+<span class="pc" id="L50">                return (User) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;User type is not valid&quot;));</span>
+            }
+        }
+
+<span class="fc" id="L54">        Locality locality = localityRepository.getById(user.getIdLocality());</span>
+
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if(locality == null){</span>
+<span class="pc" id="L57">            return (User) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Locality does not exists&quot;));</span>
+        }
+
+<span class="nc" id="L60">        User save = new User();</span>
+<span class="nc" id="L61">        Hash hash = new Hash();</span>
+
+<span class="nc" id="L63">        save.setLocality(locality);</span>
+<span class="nc" id="L64">        save.setName(user.getName());</span>
+<span class="nc" id="L65">        save.setLastname(user.getLastname());</span>
+<span class="nc" id="L66">        save.setUserName(user.getUsername());</span>
+<span class="nc" id="L67">        save.setIdNumber(user.getIdNumber());</span>
+<span class="nc" id="L68">        save.setPassword(hash.getHash(user.getIdNumber()));</span>
+<span class="nc" id="L69">        save.setActive(user.getActive());</span>
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if(user.getUserType().equals(UserType.BACKOFFICE) ){</span>
+<span class="nc" id="L72">            save.setUserType(UserType.BACKOFFICE);</span>
+        }
+        else{
+<span class="nc" id="L75">            save.setUserType(UserType.CLIENT);</span>
+        }
+
+<span class="nc" id="L78">        User saved = new User();</span>
+
+        try {
+<span class="nc" id="L81">           saved = userRepository.save(save);</span>
+<span class="nc" id="L82">        }catch(DataIntegrityViolationException e){</span>
+<span class="nc" id="L83">            return  (User) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Id number already exists&quot;));</span>
+<span class="nc" id="L84">        }</span>
+
+<span class="nc" id="L86">        return saved;</span>
+    }
+
+    public ResponseEntity&lt;List&lt;User&gt;&gt; getUsersActive(){
+
+<span class="fc" id="L91">        List&lt;User&gt; users = this.userRepository.findAll();</span>
+
+<span class="fc" id="L93">        List&lt;User&gt; reply = new ArrayList&lt;User&gt;();</span>
+
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        for (User u: users) {</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            if(u.getActive() == true){</span>
+<span class="fc" id="L97">                reply.add(u);</span>
+            }
+<span class="fc" id="L99">        }</span>
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if(!reply.isEmpty()){</span>
+<span class="fc" id="L102">            return ResponseEntity.ok(reply);</span>
+        }else{
+<span class="fc" id="L104">            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+        }
+    }
+
+    public ResponseEntity&lt;List&lt;User&gt;&gt; getUsersDisabled(){
+
+<span class="nc" id="L110">        List&lt;User&gt; users = this.userRepository.findAll();</span>
+
+<span class="nc" id="L112">        List&lt;User&gt; reply = new ArrayList&lt;User&gt;();</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (User u: users) {</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if(u.getActive() == false ){</span>
+<span class="nc" id="L116">                reply.add(u);</span>
+            }
+<span class="nc" id="L118">        }</span>
+
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if(!reply.isEmpty()){</span>
+<span class="nc" id="L121">            return ResponseEntity.ok(reply);</span>
+        }else{
+<span class="nc" id="L123">            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+        }
+    }
+
+
+
+    public User getUserById(Integer idUser) throws UserException {
+<span class="fc" id="L130">        User user = this.userRepository.getById(idUser);</span>
+
+<span class="fc" id="L132">        return Optional.ofNullable(user).orElseThrow(() -&gt; new UserException(&quot;User not exists&quot;));</span>
+    }
+
+    public void delete(Integer idUser) throws UserException {
+<span class="fc" id="L136">        userRepository.delete(idUser);</span>
+<span class="fc" id="L137">    }</span>
+
+    //PERMITE HACER A UN CLIENTE PARTE DEL BACKOFFICE
+
+    public User update(Integer idUser, UpdateUserDto userDto) throws ValidationException {
+<span class="fc" id="L142">        User old = this.userRepository.findById(idUser).get();</span>
+
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if(!userDto.getUserType().equals(UserType.BACKOFFICE.toString())){</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            if(!userDto.getUserType().equals(UserType.CLIENT.toString())) {</span>
+<span class="pc" id="L146">                return (User) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;User type is not valid&quot;));</span>
+            }
+        }
+
+<span class="fc" id="L150">        Locality locality = localityRepository.getById(userDto.getIdLocality());</span>
+
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if(locality == null){</span>
+<span class="pc" id="L153">            return (User) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Locality does not exists&quot;));</span>
+        }
+
+<span class="fc" id="L156">        old.setLocality(locality);</span>
+<span class="fc" id="L157">        old.setName(userDto.getName());</span>
+<span class="fc" id="L158">        old.setLastname(userDto.getLastname());</span>
+
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        if(userDto.getUserType().equals(UserType.BACKOFFICE) ){</span>
+<span class="nc" id="L161">            old.setUserType(UserType.BACKOFFICE);</span>
+        }
+        else{
+<span class="fc" id="L164">            old.setUserType(UserType.CLIENT);</span>
+        }
+
+<span class="fc" id="L167">        return this.userRepository.save(old);</span>
+    }
+
+    //UPDATE POR PARTE DEL CLIENTE
+    public User update(Integer idClient, LoginRequestDto user) throws ValidationException {
+<span class="fc" id="L172">        User save = this.userRepository.getById(idClient);</span>
+
+<span class="fc" id="L174">        Hash hash = new Hash();</span>
+
+<span class="fc" id="L176">        save.setUserName(user.getUsername());</span>
+<span class="fc" id="L177">        save.setPassword(hash.getHash(user.getPassword()));</span>
+
+<span class="fc" id="L179">        return this.userRepository.save(save);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

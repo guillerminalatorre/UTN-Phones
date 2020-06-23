@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+utn-phones-api,com.utn.utnphones.controllers,CallController,0,34,0,0,0,8,0,6,0,6
+utn-phones-api,com.utn.utnphones.controllers,UserController,39,60,1,5,8,14,4,11,3,9
+utn-phones-api,com.utn.utnphones.controllers,TariffController,0,17,0,0,0,5,0,3,0,3
+utn-phones-api,com.utn.utnphones.controllers,BillController,0,30,0,0,0,8,0,4,0,4
+utn-phones-api,com.utn.utnphones.controllers,PhoneLineController,60,107,0,8,10,28,3,13,3,9
+utn-phones-api,com.utn.utnphones,UtnPhonesApiApplication,8,0,0,0,3,0,2,0,2,0
+utn-phones-api,com.utn.utnphones.services,PhoneLineService,148,98,10,8,27,28,11,14,6,10
+utn-phones-api,com.utn.utnphones.services,UserService,139,201,12,16,28,43,10,20,2,14
+utn-phones-api,com.utn.utnphones.services,TariffService,0,45,0,2,0,11,0,5,0,4
+utn-phones-api,com.utn.utnphones.services,BillService,12,101,0,10,0,25,0,11,0,6
+utn-phones-api,com.utn.utnphones.services,CallService,24,133,0,12,2,32,1,14,1,8

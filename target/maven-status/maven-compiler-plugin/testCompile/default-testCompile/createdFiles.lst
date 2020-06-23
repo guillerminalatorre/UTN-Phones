@@ -1,0 +1,11 @@
+com\utn\utnphones\services\UserServiceTest.class
+com\utn\utnphones\services\CallServiceTest.class
+com\utn\utnphones\services\PhoneLineServiceTest.class
+com\utn\utnphones\controllers\PhoneLineControllerTest.class
+com\utn\utnphones\services\BillServiceTest.class
+com\utn\utnphones\services\TariffServiceTest.class
+com\utn\utnphones\controllers\CallControllerTest.class
+com\utn\utnphones\controllers\TariffControllerTest.class
+com\utn\utnphones\controllers\UserControllerTest.class
+com\utn\utnphones\controllers\BillControllerTest.class
+com\utn\utnphones\UtnPhonesApiApplicationTests.class

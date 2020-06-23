@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CallService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">utn-phones-api</a> &gt; <a href="index.source.html" class="el_package">com.utn.utnphones.services</a> &gt; <span class="el_source">CallService.java</span></div><h1>CallService.java</h1><pre class="source lang-java linenums">package com.utn.utnphones.services;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import com.utn.utnphones.exceptions.UserException;
+import com.utn.utnphones.exceptions.ValidationException;
+import com.utn.utnphones.models.Call;
+import com.utn.utnphones.models.Locality;
+import com.utn.utnphones.models.User;
+import com.utn.utnphones.repositories.CallRepository;
+import com.utn.utnphones.repositories.UserRepository;
+import org.hibernate.JDBCException;
+import org.hibernate.exception.DataException;
+import org.hibernate.exception.GenericJDBCException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CallService {
+    private final CallRepository callRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+<span class="fc" id="L27">    public CallService(final CallRepository callRepository, UserRepository userRepository){</span>
+<span class="fc" id="L28">        this.callRepository = callRepository;</span>
+<span class="fc" id="L29">        this.userRepository = userRepository;</span>
+<span class="fc" id="L30">    }</span>
+
+    public ResponseEntity&lt;List&lt;Call&gt;&gt; getUserCalls(Integer idClient) throws UserException {
+<span class="fc" id="L33">        User u = new User();</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if((u = this.userRepository.getById(idClient)) == null){</span>
+<span class="pc" id="L36">            return (ResponseEntity&lt;List&lt;Call&gt;&gt;) Optional.ofNullable(null).orElseThrow(() -&gt; new UserException(&quot;User not exists&quot;));</span>
+        }
+
+<span class="fc" id="L39">        List&lt;Call&gt; calls = new ArrayList&lt;Call&gt;();</span>
+
+<span class="fc" id="L41">        calls = this.callRepository.getCallsFromByUser(idClient);</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(!calls.isEmpty()){</span>
+<span class="fc" id="L44">            return ResponseEntity.ok(calls);</span>
+        }else{
+<span class="fc" id="L46">            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+        }
+    }
+
+    public ResponseEntity&lt;List&lt;Locality&gt;&gt; getLocalitiesToByCallIdUser(Integer idUser) {
+
+<span class="fc" id="L52">        List&lt;Locality&gt; localities = new ArrayList&lt;Locality&gt;();</span>
+
+<span class="fc" id="L54">        localities = this.callRepository.getLocalitiesToByCallIdUser(idUser);</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if(!localities.isEmpty()){</span>
+<span class="fc" id="L57">            return ResponseEntity.ok(localities);</span>
+        }else{
+<span class="fc" id="L59">            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+        }
+    }
+
+    public ResponseEntity&lt;List&lt;Call&gt;&gt; getCallsBtwDatesByUser(Integer idUser, String startDate, String finalDate) throws UserException {
+<span class="fc" id="L64">        User u = new User();</span>
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if((u = this.userRepository.getById(idUser)) == null){</span>
+<span class="pc" id="L67">            return (ResponseEntity&lt;List&lt;Call&gt;&gt;) Optional.ofNullable(null).orElseThrow(() -&gt; new UserException(&quot;User not exists&quot;));</span>
+        }
+
+<span class="fc" id="L70">        List&lt;Call&gt; calls = new ArrayList&lt;Call&gt;();</span>
+
+<span class="fc" id="L72">        calls = this.callRepository.getCallsBtwDatesByUser(idUser, startDate, finalDate);</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if(!calls.isEmpty()){</span>
+<span class="fc" id="L75">            return ResponseEntity.ok(calls);</span>
+        }else{
+<span class="fc" id="L77">            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+        }
+    }
+
+    public ResponseEntity&lt;List&lt;Call&gt;&gt; getCallsBtwDates(String date1, String date2){
+<span class="fc" id="L82">        List&lt;Call&gt; calls = new ArrayList&lt;Call&gt;();</span>
+
+<span class="fc" id="L84">        calls = this.callRepository.getCallsBtwDates(date1, date2);</span>
+
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if(!calls.isEmpty()){</span>
+<span class="fc" id="L87">            return ResponseEntity.ok(calls);</span>
+        }else{
+<span class="fc" id="L89">            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();</span>
+        }
+    }
+
+    public ResponseEntity&lt;Call&gt; addCall(Call call) throws ValidationException {
+<span class="fc" id="L94">        Call savedCall = new Call();</span>
+
+        try {
+<span class="fc" id="L97">            return ResponseEntity.ok(savedCall = callRepository.save(call));</span>
+        }
+<span class="nc" id="L99">        catch(Exception e){</span>
+<span class="nc" id="L100">            return (ResponseEntity&lt;Call&gt;) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Error. Check: Post-current date || &quot; +</span>
+                    &quot;Tariff do not exists for this call ||&quot; +
+                    &quot; One of the numbers inserted do not exists &quot;));
+
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

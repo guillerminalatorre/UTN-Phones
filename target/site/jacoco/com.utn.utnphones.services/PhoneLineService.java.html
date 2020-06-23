@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PhoneLineService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">utn-phones-api</a> &gt; <a href="index.source.html" class="el_package">com.utn.utnphones.services</a> &gt; <span class="el_source">PhoneLineService.java</span></div><h1>PhoneLineService.java</h1><pre class="source lang-java linenums">package com.utn.utnphones.services;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.List;
+
+import com.utn.utnphones.dto.PhoneLineDto;
+import com.utn.utnphones.exceptions.GoneException;
+import com.utn.utnphones.exceptions.PhoneLineNotExistsException;
+import com.utn.utnphones.exceptions.ValidationException;
+import com.utn.utnphones.exceptions.UserException;
+import com.utn.utnphones.models.LineType;
+import com.utn.utnphones.models.PhoneLine;
+import com.utn.utnphones.models.User;
+import com.utn.utnphones.models.enums.LineStatus;
+import com.utn.utnphones.repositories.LineTypeRepository;
+import com.utn.utnphones.repositories.PhoneLineRepository;
+import com.utn.utnphones.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class PhoneLineService {
+    private final PhoneLineRepository phoneLineRepository;
+    private final UserRepository userRepository;
+    private final LineTypeRepository lineTypeRepository;
+
+    @Autowired
+<span class="fc" id="L30">    public PhoneLineService(final PhoneLineRepository phoneLineRepository, UserRepository userRepository, LineTypeRepository lineTypeRepository){</span>
+<span class="fc" id="L31">        this.phoneLineRepository = phoneLineRepository;</span>
+<span class="fc" id="L32">        this.userRepository = userRepository;</span>
+<span class="fc" id="L33">        this.lineTypeRepository = lineTypeRepository;</span>
+<span class="fc" id="L34">    }</span>
+
+    public PhoneLine add(PhoneLineDto phoneLineDto) throws ValidationException, UserException {
+<span class="nc" id="L37">        PhoneLine saved = new PhoneLine();</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if(!phoneLineDto.getLineStatus().equals(LineStatus.ENABLED.toString())) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (!phoneLineDto.getLineStatus().equals(LineStatus.DISABLED.toString())) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                if (!phoneLineDto.getLineStatus().equals(LineStatus.SUSPENDED.toString())) {</span>
+<span class="nc" id="L42">                    return (PhoneLine) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Line Status is not valid&quot;));</span>
+
+                }else{
+<span class="nc" id="L45">                    saved.setStatus(LineStatus.SUSPENDED);</span>
+                }
+            }else{
+<span class="nc" id="L48">                saved.setStatus(LineStatus.DISABLED);</span>
+            }
+        }else{
+<span class="nc" id="L51">            saved.setStatus(LineStatus.ENABLED);</span>
+        }
+
+<span class="nc" id="L54">        LineType lineType = new LineType();</span>
+
+<span class="nc" id="L56">        lineType = this.lineTypeRepository.getById(phoneLineDto.getIdLineType());</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if(lineType == null){</span>
+<span class="nc" id="L59">            return (PhoneLine) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;LineType is not valid&quot;));</span>
+        }
+
+<span class="nc" id="L62">        User user = new User();</span>
+
+<span class="nc" id="L64">        user = this.userRepository.getById(phoneLineDto.getIdUser());</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if(user == null){</span>
+<span class="nc" id="L67">            return (PhoneLine) Optional.ofNullable(null).orElseThrow(() -&gt; new UserException(&quot;User do not Exists&quot;));</span>
+        }
+
+<span class="nc" id="L70">        saved.setLineType(lineType);</span>
+<span class="nc" id="L71">        saved.setPhoneNumber(phoneLineDto.getPhoneNumber());</span>
+<span class="nc" id="L72">        saved.setUser(user);</span>
+
+<span class="nc" id="L74">        PhoneLine save = new PhoneLine();</span>
+
+        try {
+<span class="nc" id="L77">            save = phoneLineRepository.save(saved);</span>
+<span class="nc" id="L78">        }catch(DataIntegrityViolationException e){</span>
+<span class="nc" id="L79">            return  (PhoneLine) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Phone number already exists&quot;));</span>
+<span class="nc" id="L80">        }catch(Exception e){</span>
+<span class="nc" id="L81">            return (PhoneLine) Optional.ofNullable(null).orElseThrow(() -&gt; new ValidationException(&quot;Error. Check: Phone number do not contains a prefix valid || &quot; +</span>
+                    &quot;Digits quantity is not the same as Line Type &quot;));
+<span class="nc" id="L83">        }</span>
+
+<span class="nc" id="L85">        return save;</span>
+    }
+
+    public PhoneLine update(PhoneLine phoneLine){
+
+<span class="fc" id="L90">        return this.phoneLineRepository.save(phoneLine);</span>
+
+    }
+
+    public Integer delete(Integer idPhoneLine){
+
+<span class="fc" id="L96">        return this.phoneLineRepository.desactive(idPhoneLine);</span>
+
+    }
+
+    public List&lt;PhoneLine&gt; getPhoneLines(){
+<span class="fc" id="L101">        List&lt;PhoneLine&gt; phonelines = new ArrayList&lt;PhoneLine&gt;();</span>
+
+<span class="fc" id="L103">        phonelines = phoneLineRepository.findAll();</span>
+
+<span class="fc" id="L105">        return phonelines;</span>
+    }
+
+    public PhoneLine getById(Integer idPhoneLine) throws PhoneLineNotExistsException, GoneException {
+<span class="fc" id="L109">        PhoneLine phoneLine = new PhoneLine();</span>
+
+<span class="fc" id="L111">        phoneLine= this.phoneLineRepository.getById(idPhoneLine);</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if(phoneLine==null){</span>
+<span class="pc" id="L114">            return (PhoneLine) Optional.ofNullable(null)</span>
+<span class="pc" id="L115">                    .orElseThrow(() -&gt; new PhoneLineNotExistsException(&quot;Phone Line do not exists&quot;));</span>
+        }
+        else {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (phoneLine.getActive() == false){</span>
+<span class="pc" id="L119">            return (PhoneLine) Optional.ofNullable(null)</span>
+<span class="pc" id="L120">                    .orElseThrow(() -&gt; new GoneException(&quot;Phone Line already has been deleted&quot;));</span>
+            }
+        }
+
+<span class="fc" id="L124">        return phoneLine;</span>
+    }
+
+    public PhoneLine getByPhoneNumber(String phoneNumber) throws PhoneLineNotExistsException, GoneException {
+<span class="fc" id="L128">        PhoneLine phoneLine = new PhoneLine();</span>
+
+<span class="fc" id="L130">        phoneLine= this.phoneLineRepository.getByPhoneNumber(phoneNumber);</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if(phoneLine==null){</span>
+<span class="pc" id="L133">            return (PhoneLine) Optional.ofNullable(null)</span>
+<span class="pc" id="L134">                    .orElseThrow(() -&gt; new PhoneLineNotExistsException(&quot;Phone Line do not exists&quot;));</span>
+        }
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        else if (phoneLine.getActive() == false){</span>
+<span class="pc" id="L137">            return (PhoneLine) Optional.ofNullable(null)</span>
+<span class="pc" id="L138">                    .orElseThrow(() -&gt; new GoneException(&quot;Phone Line has been deleted&quot;));</span>
+        }
+
+<span class="fc" id="L141">        return phoneLine;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

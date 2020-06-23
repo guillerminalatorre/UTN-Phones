@@ -1,6 +1,13 @@
-use utnphones;
+-- Relaciones entre SQL y MongoDB
+Database -> Database
+Collection -> Table
+Document -> Row
+Field -> Column
+Value -> Value
 
-db.bills.insertOne(
+use utnphones; //CREA LA BD
+
+db.bills.insertOne( //CREA CADA COLLECTION A PARTIR DE UN INSERT SI ANTES NO EXISTÍA
   {
     id : 1,
     name : "Buenos Aires"

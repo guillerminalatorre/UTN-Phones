@@ -11,7 +11,7 @@ import java.util.List;
 public interface BillRepository extends JpaRepository<Bill, Integer> {
 
     @Query(value = "select b.* from bills b " +
-            "where b.datee BETWEEN DATE_ADD(concat(?1, ' 23:59:59.59'), INTERVAL -1 DAY) and concat( ?2, ' 23:59:59.59') " +
+            "where b.datee BETWEEN concat(?1, ' 00:00:00') and DATE_ADD(concat( ?2, ' 00:00:00'), interval 1 DAY) " +
             "order by b.id_bill asc", nativeQuery = true)
     List<Bill> findBillsBtwDates(String startDate, String finalDate);
 
@@ -23,7 +23,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
     @Query(value = "select b.* from bills b " +
             "inner join phone_lines pl on pl.id_phone_line = b.id_phone_line " +
             "where pl.id_user = ?3 and " +
-            "b.datee BETWEEN DATE_ADD(concat(?1, ' 23:59:59.59'), INTERVAL -1 DAY) and concat( ?2, ' 23:59:59.59') " +
+            "b.datee BETWEEN concat(?1, ' 00:00:00') and DATE_ADD(concat( ?2, ' 00:00:00'), interval 1 DAY) " +
             "order by b.id_bill asc", nativeQuery = true)
     List<Bill> findBillsBtwDatesByIdUser(String startDate, String finalDate, Integer isUser);
 

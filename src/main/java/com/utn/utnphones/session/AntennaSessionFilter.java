@@ -28,7 +28,6 @@ public class AntennaSessionFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
             else {
-
                 response.setStatus(HttpStatus.FORBIDDEN.value());
 
             }

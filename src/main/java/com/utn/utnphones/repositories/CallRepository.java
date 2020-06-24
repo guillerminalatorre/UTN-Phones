@@ -19,6 +19,7 @@ public interface CallRepository extends JpaRepository<Call, Integer> {
             "order by c.id_bill asc", nativeQuery = true)
     List<Call> getCallsBtwDates(String date1, String date2);
 
+    //QUERY CORRESPONDIENTE AL ENDPOINT
     @Query(value = "select concat(c.datee) as date, c.* " +
             "from calls c " +
             "inner join phone_lines pl on c.phone_number_from = pl.phone_number " +
